@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+
+    <Header></Header>
     <router-view/>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 export default {
-  name: 'App'
+  name: 'App',
+  components: {Footer, Header},
 }
 </script>
 
