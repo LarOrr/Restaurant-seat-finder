@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RestaurantList> </RestaurantList>
+    <RestaurantList></RestaurantList>
   </div>
 </template>
 
