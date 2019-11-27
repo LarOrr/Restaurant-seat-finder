@@ -27,12 +27,19 @@ places = [
 
 @app.route('/places')
 def get_all_places():
+    """
+    :return: all places (restaurants) in the database in json
+    """
     # TODO database
     return jsonify(places)
 
+
 @app.route('/places/<place_id>', methods=['PATCH'])
 def updates_seats(place_id):
-    # args = json.loads(request.data)
+    """
+    Changes number of free seats of place with that id
+    :param place_id: id of the place
+    """
     data = json.loads(request.json)
     try:
         new_seats = int(data['free_seats'])
@@ -46,6 +53,7 @@ def updates_seats(place_id):
             p['free_seats'] = new_seats
             return jsonify(p)
     return None
+
 
 if __name__ == '__main__':
     app.run()
