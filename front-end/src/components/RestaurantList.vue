@@ -41,7 +41,8 @@
 
 <script>
   import CompactRestaurant from "./CompactRestaurant";
-  import Timing from "../utils/Timing";
+  import api from "../api/api_wrapper";
+
   export default {
     name: "RestaurantList",
     components: {CompactRestaurant},
@@ -62,13 +63,13 @@
 
     methods: {
       async getRestaurants() {
-        //for now this is a stub method, replace this with the actual api call later
         this.isLoading = true;
-        //fake some loading time (1 second)
-        await Timing.sleep(1000);
+        let result;
+        await api.getPlaces().then((response) => {
+          result = response;
+        });
         this.isLoading = false;
-        //return placeholder data
-        return [{name: "my restaurant", freeSeats: 5, totalSeats: 50}, {name: "another restaurant", freeSeats: 8, totalSeats: 30}, {name: "mama mia", freeSeats: 2, totalSeats: 24}];
+        return result;
       },
 
       toggleOpen(resIndex) {

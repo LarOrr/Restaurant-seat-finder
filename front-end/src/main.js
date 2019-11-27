@@ -6,7 +6,14 @@ import router from './router'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
-Vue.use(Buefy);
+import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:5000';
+
+import './css/main.css';
+
+Vue.use(Buefy, {
+  defaultIconPack: "fas",
+});
 
 Vue.config.productionTip = false;
 
