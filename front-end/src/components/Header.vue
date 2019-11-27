@@ -1,21 +1,21 @@
 <template>
   <header class="header">
     <div class="content">
-      <p style="color: black" id="footerContent">HEADER - Restaurant Seat Finder</p>
+      <p style="color: black" id="headerContent">HEADER - Restaurant Seat Finder</p>
     </div>
   </header>
 </template>
 
 <script>
   export default {
-    name: "Header"
+    name: "Header",
   }
 </script>
 
 <style scoped>
 
   header {
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
     width: 100%;

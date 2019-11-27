@@ -1,12 +1,13 @@
 <template>
-  <div>
-    <p>{{resData.name}}</p>
+  <div class="level">
+    <p class="level-left">{{resData.name}}</p>
+    <p class="level-right">{{resData.freeSeats}} /  {{resData.totalSeats}} free</p>
   </div>
 </template>
 
 <script>
   export default {
-    name: "Restaurant",
+    name: "CompactRestaurant",
     props: {
       resData: {
         type: Object,
@@ -23,5 +24,7 @@
 </script>
 
 <style scoped>
-
+  .level {
+    margin-bottom: -0.25em;
+  }
 </style>
