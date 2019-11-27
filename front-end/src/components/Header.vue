@@ -1,15 +1,26 @@
 <template>
-  <div>
-    <p>This is the header</p>
-  </div>
+  <header class="header">
+    <div class="content">
+      <p style="color: black" id="footerContent">HEADER - Restaurant Seat Finder</p>
+    </div>
+  </header>
 </template>
 
 <script>
   export default {
-    name: "Header",
+    name: "Header"
   }
 </script>
 
 <style scoped>
+
+  header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: #1abc9c;
+    text-align: center;
+  }
 
 </style>
