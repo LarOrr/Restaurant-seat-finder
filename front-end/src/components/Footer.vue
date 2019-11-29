@@ -15,7 +15,7 @@
 <style scoped>
 
   footer {
-    height: 1em;
+    height: 5%;
     background-color: var(--primaryColor);
   }
 

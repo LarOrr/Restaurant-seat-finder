@@ -1,5 +1,5 @@
 <template>
-  <div class="level">
+  <div class="level" style="margin-bottom: -0.33%">
     <span class="level-left">
       <span>{{resData.name}}</span>
       &nbsp
@@ -45,7 +45,4 @@
 </script>
 
 <style scoped>
-  .level {
-    margin-bottom: -0.25em;
-  }
 </style>

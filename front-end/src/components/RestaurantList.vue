@@ -1,7 +1,7 @@
 <template>
   <div class="columns">
     <div class="column is-10 is-offset-1">
-      <h2 style="margin-bottom:0.25em; margin-left:0.2em;">Restaurants Nearby</h2>
+      <h2 style="margin-bottom:0.5%; margin-left:2%;">Restaurants Nearby</h2>
       <b-loading :active="isLoading"></b-loading>
       <b-collapse
         class="card has-rounded-corners"
@@ -11,14 +11,14 @@
         @open="toggleOpen(res.id)"
         @close="toggleOpen(res.id)"
         v-show="!isLoading"
-        style="margin-bottom:0.33em; margin-left: 0.5em; margin-right: 0.5em"
+        style="margin: 0 2% 0.4% 2%;"
       >
         <div
           slot="trigger"
           slot-scope="props"
           class="card-header"
           role="button"
-          style="border-radius: 1em;">
+          style="border-radius: 16px;">
           <CompactRestaurant :res-data="res" class="card-header-title"></CompactRestaurant>
           <a class="card-header-icon">
             <b-icon
