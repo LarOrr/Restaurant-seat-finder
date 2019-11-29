@@ -1,7 +1,7 @@
 <template>
-  <header class="header">
-    <div class="content">
-      <p style="color: black" id="headerContent">HEADER - Restaurant Seat Finder</p>
+  <header class="header has-text-centered">
+    <div class="content font-header">
+      <p id="headerContent">Restaurant Seat Finder</p>
     </div>
   </header>
 </template>
@@ -15,12 +15,11 @@
 <style scoped>
 
   header {
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: relative;
+    background-color: var(--primaryColor);
+    margin: 0% 0 5% 0;
+    height: 50px;
     width: 100%;
-    background-color: #1abc9c;
-    text-align: center;
   }
 
 </style>

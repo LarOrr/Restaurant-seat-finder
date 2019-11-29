@@ -1,11 +1,17 @@
 :root {
-  --primaryColor: #267bad;
-  --darkGrey: #38434C;
+  --primaryColor: #1abc9c;
   --lightGrey: #F8FAFA;
-  --accentColor: #FF5F2C;
-  --backgroundColor: #f3f5f5;
+  --accentColor: #ff9a36;
+  --backgroundColor: #ffe6bd;
 }
 
+.font-header {
+  font-family: "Arial", serif;
+  text-align: left;
+  margin-left: 2%;
+  font-size: 20px;
+  color: #F8FAFA;
+}
 
 h2 {
   font-size: 2.1em !important;

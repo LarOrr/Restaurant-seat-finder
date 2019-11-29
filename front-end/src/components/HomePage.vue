@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <RestaurantList></RestaurantList>
   </div>
 </template>
@@ -13,5 +13,7 @@
 </script>
 
 <style scoped>
-
+  .content{
+    margin-bottom: 3%;
+  }
 </style>
