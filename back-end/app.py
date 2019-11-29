@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request, abort
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 # TODO put it to another file and make other classes
 class Address:
