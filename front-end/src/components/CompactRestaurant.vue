@@ -27,10 +27,10 @@
       getSeatAvailability() {
         let fs = this.$props.resData.free_seats;
         let ts = this.$props.resData.total_seats;
-        if(fs < ts * 0.1) {
+        if(fs <= ts * 0.1) {
           return 'is-low-amount-of-seats';
         }
-        else if (fs < ts * 0.33) {
+        else if (fs <= ts * 0.33) {
           return 'is-medium-amount-of-seats';
         }
         else return 'is-high-amount-of-seats';
