@@ -41,12 +41,6 @@
         return '1 km';
       }
     },
-
-    data() {
-      return {
-
-      }
-    }
   }
 </script>
 
