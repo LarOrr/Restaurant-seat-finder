@@ -1,7 +1,7 @@
 <template>
   <div class="columns">
     <div class="column is-10 is-offset-1">
-      <h2 style="margin-bottom:0.25em; margin-left:0.1em;">Restaurants Nearby</h2>
+      <h2 style="margin-bottom:0.25em; margin-left:0.1em; color: #18453b">Restaurants Nearby</h2>
       <b-loading :active="isLoading"></b-loading>
       <b-collapse
         class="card has-rounded-corners"
@@ -86,5 +86,4 @@
 </script>
 
 <style scoped>
-
 </style>

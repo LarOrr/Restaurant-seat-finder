@@ -1,7 +1,7 @@
 <template>
-  <footer class="footer">
+  <footer class="footer has-text-centered">
     <div class="content">
-      <p style="color: black" id="footerContent">Footer</p>
+      <p class="font-header" id="footerContent">Footer</p>
     </div>
   </footer>
 </template>
@@ -15,11 +15,8 @@
 <style scoped>
 
   footer {
-    position: relative;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: #1abc9c;
-    text-align: center;
+    height: 1em;
+    background-color: var(--primaryColor);
   }
+
 </style>
