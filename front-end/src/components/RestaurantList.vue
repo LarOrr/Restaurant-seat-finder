@@ -1,17 +1,17 @@
 <template>
   <div class="columns">
     <div class="column is-10 is-offset-1">
-      <h2 style="margin-bottom:0.25em; margin-left:0.1em;">Restaurants Nearby</h2>
+      <h2 style="margin-bottom:0.25em; margin-left:0.2em;">Restaurants Nearby</h2>
       <b-loading :active="isLoading"></b-loading>
       <b-collapse
         class="card has-rounded-corners"
-        v-for="(res, index) in restaurants"
-        :key="index"
-        :open="opened[index]"
-        @open="toggleOpen(index)"
-        @close="toggleOpen(index)"
+        v-for="res in restaurants"
+        :key="res.id"
+        :open="opened[res.id]"
+        @open="toggleOpen(res.id)"
+        @close="toggleOpen(res.id)"
         v-show="!isLoading"
-        style="margin-bottom:0.33em;"
+        style="margin-bottom:0.33em; margin-left: 0.5em; margin-right: 0.5em"
       >
         <div
           slot="trigger"
@@ -27,13 +27,34 @@
             </b-icon>
           </a>
         </div>
+
+
         <div class="card-content">
           <DetailedRestaurant :res-data="res" class="content"></DetailedRestaurant>
         </div>
+
+
         <footer class="card-footer">
           <a class="card-footer-item" href="https://google.com" target="_blank">Visit Website</a>
-          <a class="card-footer-item" href="https://github.com" target="_blank">Update Amount of Seats</a>
+
+          <a
+            class="card-footer-item"
+            @click="initUpdateSeats(res.id)"
+            v-show="updatingStatuses[res.id] === FALSE"
+          >Update Amount of Seats</a>
+
+          <RestaurantSeatUpdater
+            :res-data="res"
+            v-show="updatingStatuses[res.id] === TRUE || updatingStatuses[res.id] === LOADING"
+            v-on:confirm="confirmUpdate(res.id, $event)"
+            v-on:cancel="closeUpdate(res.id)"
+            class="card-footer-item"
+          >
+          </RestaurantSeatUpdater>
+
         </footer>
+
+
       </b-collapse>
     </div>
 
@@ -45,41 +66,81 @@
   import CompactRestaurant from "./CompactRestaurant";
   import api from "../api/api_wrapper";
   import DetailedRestaurant from "./DetailedRestaurant";
+  import RestaurantSeatUpdater from "./RestaurantSeatUpdater";
 
   export default {
     name: "RestaurantList",
-    components: {DetailedRestaurant, CompactRestaurant},
+    components: {DetailedRestaurant, CompactRestaurant, RestaurantSeatUpdater},
     data() {
       return {
+        //constants:
+        TRUE: 'true',
+        FALSE: 'false',
+        LOADING: 'loading',
+
         restaurants: [],
         opened: {},
         isLoading: true,
+        updatingStatuses: {},
 
-        testData: [{name: 'my restaurant', free_seats: 16, total_seats: 20}, {name: 'another restaurant', free_seats: 10, total_seats: 36}, {name: 'mama mia', free_seats: 2, total_seats: 40}]
+        testData: [
+          {id: 1, name: 'my restaurant', free_seats: 16, total_seats: 20},
+          {id: 2, name: 'another restaurant', free_seats: 10, total_seats: 36},
+          {id: 3, name: 'mama mia', free_seats: 2, total_seats: 40}
+        ],
       }
     },
 
     async mounted() {
-      this.restaurants = await this.getRestaurants();
-      for(let i = 0; i < this.restaurants.length; i++){
-        this.opened[i] = false;
-      }
+      await this.getRestaurants();
     },
 
     methods: {
       async getRestaurants() {
         this.isLoading = true;
-        let result;
         await api.getPlaces().then((response) => {
-          console.log("done making request");
-          result = response;
+          if(response && response.status === 200) {
+            this.restaurants = response.data;
+          }
+          else {
+            this.$buefy.toast.open({message: 'request failed with status code: ' + ((response && response.status) ? response.status : 'unknown status'), type: 'is-danger'});
+            console.error(response);
+            this.restaurants = this.testData;
+          }
+          this.isLoading = false;
+
+          for(let i = 0; i < this.restaurants.length; i++){
+            this.opened[i+1] = false;
+            this.$set(this.updatingStatuses, this.restaurants[i].id, this.FALSE);
+          }
         });
-        this.isLoading = false;
-        return result ? result : this.testData;
       },
 
-      toggleOpen(resIndex) {
-        this.opened[resIndex] = !this.opened[resIndex];
+      toggleOpen(resId) {
+        this.$set(this.opened, resId, !this.opened[resId]);
+      },
+
+      initUpdateSeats(resId) {
+        this.$set(this.updatingStatuses, resId, this.TRUE);
+      },
+
+      confirmUpdate(resId, amount) {
+        console.log(resId + "'s amount of seats will be updated to " + amount);
+        this.$set(this.updatingStatuses, resId, this.LOADING);
+        api.updateSeats().then((response) => {
+          if(response && response.status === 200) {
+            this.$buefy.toast.open({message: 'thank you for your contribution, the amount of free seats has been updated', type: 'is-success'})
+          }
+          else {
+            this.$buefy.toast.open({message: 'request failed with status code: ' + ((response && response.status) ? response.status : 'unknown status'), type: 'is-danger'});
+            console.error(response);
+          }
+          this.closeUpdate(resId);
+        });
+      },
+
+      closeUpdate(resId) {
+        this.$set(this.updatingStatuses, resId, this.FALSE);
       },
     }
   }

@@ -15,9 +15,9 @@ export default {
     });
   },
 
-  updateSeats(updatedNum) {
-    console.log('making patch request to /places/' + updatedNum);
-    return axios.patch('/places/' + updatedNum).then((response) => {
+  updateSeats(id, updatedNum) {
+    console.log('making patch request to /places/' + id);
+    return axios.patch('/places/' + id, {free_seats: updatedNum}).then((response) => {
       return response;
     }, (error) => {
       console.error(error);
