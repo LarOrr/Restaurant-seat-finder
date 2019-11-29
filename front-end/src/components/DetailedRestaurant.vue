@@ -5,7 +5,7 @@
     </span>
     <br>
     <span>
-      Address: {{resData.address ? resData.address : 'N/A'}}
+      Address: {{resData.address ? resData.address.street + ' ' + resData.address.house_number + ', ' + resData.address.city + ', ' + resData.address.country : 'N/A'}}
     </span>
   </div>
 </template>

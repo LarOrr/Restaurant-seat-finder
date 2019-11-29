@@ -37,3 +37,7 @@ h2 {
   border-color: ghostwhite;
   border-radius: 1em;
 }
+
+.rest-list-footer-item {
+  min-height: 4em;
+}

@@ -7,9 +7,9 @@ __site = 'http://localhost:5000'
 
 def test_patch():
     dict = {
-        'free_seats': 33
+        'free_seats': 20
     }
-    return requests.patch(__site + '/places/2', json=json.dumps(dict))
+    return requests.patch(__site + '/places/1', json=json.dumps(dict))
 
 
 if __name__ == '__main__':

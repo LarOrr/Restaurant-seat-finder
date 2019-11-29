@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request, abort
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 # TODO put it to another file and make other classes
 class Address:
@@ -40,7 +42,11 @@ def updates_seats(place_id):
     Changes number of free seats of place with that id
     :param place_id: id of the place
     """
-    data = json.loads(request.json)
+    try:
+        data = json.loads(request.json)
+    except TypeError:
+        data = request.json
+
     try:
         new_seats = int(data['free_seats'])
     except KeyError:
