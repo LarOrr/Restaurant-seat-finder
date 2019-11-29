@@ -35,10 +35,10 @@
 
 
         <footer class="card-footer">
-          <a class="card-footer-item" href="https://google.com" target="_blank">Visit Website</a>
+          <a class="card-footer-item rest-list-footer-item" href="https://google.com" target="_blank">Visit Website</a>
 
           <a
-            class="card-footer-item"
+            class="card-footer-item rest-list-footer-item"
             @click="initUpdateSeats(res.id)"
             v-show="updatingStatuses[res.id] === FALSE"
           >Update Amount of Seats</a>
@@ -48,10 +48,9 @@
             v-show="updatingStatuses[res.id] === TRUE || updatingStatuses[res.id] === LOADING"
             v-on:confirm="confirmUpdate(res.id, $event)"
             v-on:cancel="closeUpdate(res.id)"
-            class="card-footer-item"
+            class="card-footer-item rest-list-footer-item"
           >
           </RestaurantSeatUpdater>
-
         </footer>
 
 
