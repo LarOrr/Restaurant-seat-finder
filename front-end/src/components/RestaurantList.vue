@@ -128,7 +128,15 @@
         this.$set(this.updatingStatuses, resId, this.LOADING);
         api.updateSeats(resId, amount).then((response) => {
           if(response && response.status === 200) {
-            this.$buefy.toast.open({message: 'thank you for your contribution, the amount of free seats has been updated', type: 'is-success'})
+            this.$buefy.toast.open({message: 'thank you for your contribution, the amount of free seats has been updated', type: 'is-success'});
+
+            for(let i = 0; i < this.restaurants.length; i++) {
+              let newRest = this.restaurants[i];
+              if(newRest.id === resId) {
+                newRest.free_seats = response.data.free_seats;
+                this.restaurants.splice(i, 1, newRest)
+              }
+            }
           }
           else {
             this.$buefy.toast.open({message: 'request failed with status code: ' + ((response && response.status) ? response.status : 'unknown status'), type: 'is-danger'});
