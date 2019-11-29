@@ -16,8 +16,9 @@ export default {
   },
 
   updateSeats(id, updatedNum) {
-    console.log('making patch request to /places/' + id);
-    return axios.patch('/places/' + id, {free_seats: updatedNum}).then((response) => {
+    let requestBody = {free_seats: updatedNum};
+    console.log('making patch request to /places/' + id, requestBody);
+    return axios.patch('/places/' + id, requestBody).then((response) => {
       return response;
     }, (error) => {
       console.error(error);

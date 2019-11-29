@@ -126,7 +126,7 @@
       confirmUpdate(resId, amount) {
         console.log(resId + "'s amount of seats will be updated to " + amount);
         this.$set(this.updatingStatuses, resId, this.LOADING);
-        api.updateSeats().then((response) => {
+        api.updateSeats(resId, amount).then((response) => {
           if(response && response.status === 200) {
             this.$buefy.toast.open({message: 'thank you for your contribution, the amount of free seats has been updated', type: 'is-success'})
           }
