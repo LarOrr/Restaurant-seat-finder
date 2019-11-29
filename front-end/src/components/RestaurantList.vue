@@ -36,7 +36,8 @@
 
         <footer class="card-footer">
           <a class="card-footer-item rest-list-footer-item" href="https://google.com" target="_blank">Visit Website</a>
-
+        </footer>
+        <footer class="card-footer">
           <a
             class="card-footer-item rest-list-footer-item"
             @click="initUpdateSeats(res.id)"
