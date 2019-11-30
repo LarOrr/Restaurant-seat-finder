@@ -16,10 +16,10 @@
 
   header {
     position: relative;
-    background-color: var(--primaryColor);
+    background: linear-gradient(to bottom, #960d04 0%, #d10d00 100%);
     margin: 0% 0 5% 0;
     height: 50px;
-    width: 100%;
+    width: 105%;
   }
 
 </style>

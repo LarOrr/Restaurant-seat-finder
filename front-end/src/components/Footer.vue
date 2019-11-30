@@ -1,7 +1,7 @@
 <template>
   <footer class="footer has-text-centered">
     <div class="content">
-      <p class="font-header" id="footerContent">Footer</p>
+      <p class="font-header" id="footerContent" style="font-size: 1em">Footer - some contact information</p>
     </div>
   </footer>
 </template>
@@ -16,7 +16,9 @@
 
   footer {
     height: 5%;
-    background-color: var(--primaryColor);
+    width: 105%;
+    margin-top: 6%;
+    background: linear-gradient(to top, #960d04 0%, #d10d00 100%);
   }
 
 </style>
