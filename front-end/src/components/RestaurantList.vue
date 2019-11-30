@@ -156,6 +156,6 @@
 
 <style scoped>
 .columns{
-  background-color: #FBF4F4;
+  background-color: var(--lightGrey);
 }
 </style>

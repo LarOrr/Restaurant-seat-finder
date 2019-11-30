@@ -1,6 +1,6 @@
 :root {
   --primaryColor: #1abc9c;
-  --lightGrey: #F8FAFA;
+  --lightGrey: #faf9fb;
   --accentColor: #ff9a36;
   --backgroundColor: #ffe6bd;
 }
@@ -10,7 +10,7 @@
   text-align: left;
   margin-left: 2%;
   font-size: 20px;
-  color: ghostwhite;
+  color: #faf9fb;
 }
 
 h2 {
