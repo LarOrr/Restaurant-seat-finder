@@ -4,7 +4,7 @@
     <b-field grouped>
       <b-numberinput rounded v-model="freeSeats" min="0" :max="$props.resData.total_seats" @blur="capSeats" class="is-hidden-mobile"></b-numberinput>
       <!-- input for mobile -->
-      <b-numberinput rounded controls-position="compact" v-model="freeSeats" min="0" :max="$props.resData.total_seats" @blur="capSeats" class="is-hidden-tablet" style="width: 50%"></b-numberinput>
+      <b-numberinput rounded controls-position="compact" v-model="freeSeats" min="0" :max="$props.resData.total_seats" @blur="capSeats" class="is-hidden-tablet" style="width: 60%"></b-numberinput>
 
       <!-- Buttons for desktop site -->
       <b-button type="is-primary" @click="confirmUpdate" class="is-hidden-touch">confirm</b-button>
