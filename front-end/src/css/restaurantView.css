@@ -1,0 +1,13 @@
+/* for the restaurant view pages */
+.rest-view-heading {
+  font-size: 3em !important;
+  color: var(--primaryColor) !important;
+}
+
+.rest-view-seat-count {
+  font-size: 6em !important;
+}
+
+.rest-view-account-manage-icon {
+  font-size: 500% !important;
+}

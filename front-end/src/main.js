@@ -9,7 +9,10 @@ import 'buefy/dist/buefy.css'
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:5000';
 
+
+//import our css files
 import './css/main.css';
+import './css/restaurantView.css'
 
 Vue.use(Buefy, {
   defaultIconPack: "fas",

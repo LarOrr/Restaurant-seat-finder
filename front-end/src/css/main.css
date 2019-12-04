@@ -19,6 +19,20 @@ h2 {
   text-align: left;
 }
 
+h3 {
+  font-size:1.33em !important;
+}
+
+/* defining more sizes */
+.is-huge {
+  transform: scale(2,2);
+}
+
+.is-hugh-mungus {
+  transform: scale(3,3);
+}
+
+/* colors for displaying the ratio of free seats left */
 .is-low-amount-of-seats {
   color: red;
 }
