@@ -55,8 +55,15 @@
       }
     },
 
+    mounted() {
+      if(!this.$props.sessionId) {
+        this.$router.push({name: 'Login', params: {reasonMessage: 'Your session has expired, please log in again'}});
+      }
+    },
+
     methods: {
       updateSeats(newAmount) {
+        //TODO: call the back end to update
         console.log('the amount of free seats will be updated to ' + newAmount);
       },
     },

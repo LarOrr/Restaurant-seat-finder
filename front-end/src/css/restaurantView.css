@@ -11,3 +11,7 @@
 .rest-view-account-manage-icon {
   font-size: 500% !important;
 }
+
+.rest-view-login-inputs {
+  max-width: 500px;
+}
