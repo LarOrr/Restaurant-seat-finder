@@ -1,9 +1,17 @@
 <template>
   <div>
     <!-- TODO: Make these buttons look better on mobile -->
-    <b-button type="is-primary" @click="modifySeats(1)" class="is-large">{{getSimpleSign()}}</b-button>
+    <b-button type="is-primary" @click="modifySeats(1)" class="is-large" style="margin: 0.5%;">{{getSimpleSign()}}</b-button>
     <br>
-    <b-button v-for="i in Array.from({length: modifiers.length}, (v, ind) => ind)" type="is-primary" @click="modifySeats(orderedModifiers[i])" :key="i">{{getButtonString(orderedModifiers[i])}}</b-button>
+    <b-button
+      v-for="i in Array.from({length: modifiers.length}, (v, ind) => ind)"
+      type="is-primary"
+      @click="modifySeats(orderedModifiers[i])"
+      :key="i"
+      style="margin: 0.5%;"
+    >
+      {{getButtonString(orderedModifiers[i])}}
+    </b-button>
   </div>
 </template>
 
@@ -35,7 +43,7 @@
 
     methods: {
       getMinOrMax() {
-        return (PosNegEnum.getSignString(this.$props.direction) === '+' ? 'empty' : 'full');
+        return (PosNegEnum.isPositive(this.$props.direction) ? 'empty' : 'full');
       },
 
       getSimpleSign() {
@@ -43,7 +51,7 @@
       },
 
       getSignedNum(num) {
-        if(num === Number.MAX_SAFE_INTEGER) {return (this.getSimpleSign() === '-' ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER)}
+        if(num === Number.MAX_SAFE_INTEGER) {return PosNegEnum.getSignedLimit(this.$props.direction)}
         return PosNegEnum.getSignMultiplier(this.$props.direction) * num;
       },
 

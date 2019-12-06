@@ -10,7 +10,7 @@
       <b-icon
         pack="fas"
         icon="fas fa-user-circle"
-        class="rest-view-account-manage-icon"
+        class="is-primary-color rest-view-account-manage-icon"
       >
       </b-icon>
     </div>
