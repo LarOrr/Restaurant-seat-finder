@@ -1,0 +1,70 @@
+:root {
+  --primaryColor: #1abc9c;
+  --lightGrey: #faf9fb;
+  --accentColor: #ff9a36;
+  --backgroundColor: #ffe6bd;
+}
+
+.font-header {
+  font-family: "Arial", serif;
+  text-align: left;
+  margin-left: 2%;
+  font-size: 20px;
+  color: #faf9fb;
+}
+
+h2 {
+  font-size: 1.8em !important;
+  color: #2F2F2F !important;
+  text-align: left;
+}
+
+h3 {
+  font-size:1.33em !important;
+}
+
+/* defining more sizes */
+.is-huge {
+  transform: scale(2,2);
+}
+
+.is-hugh-mungus {
+  transform: scale(3,3);
+}
+
+/* colors for displaying the ratio of free seats left */
+.is-low-amount-of-seats {
+  color: red;
+}
+
+.is-medium-amount-of-seats {
+  color: orange;
+}
+
+.is-high-amount-of-seats {
+  color: limegreen;
+}
+
+.has-rounded-corners {
+  border-style: solid;
+  border-width: 1px;
+  border-color: ghostwhite;
+  border-radius: 16px;
+}
+
+.rest-list-footer-item {
+  min-height: 64px;
+}
+
+.is-primary-color {
+  color: var(--primaryColor);
+}
+
+.is-accent-color {
+  color: var(--accentColor);
+}
+
+/* provides an alias for is-accent-color */
+.is-secondary-color {
+  color: var(--accentColor);
+}
