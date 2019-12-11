@@ -142,7 +142,7 @@
         <b-field>
         <b-checkbox id="rememberCheckRegister" v-model="remember"><p id="registerRemember">Remember me</p></b-checkbox>
         </b-field>
-          <button class="button is-right" @click.prevent="register" id="registerButton">Sign Up</button>
+          <button class="button is-right is-primary" @click.prevent="register" id="registerButton">Sign Up</button>
       </div>
 
       <b-loading :active="isLoading"></b-loading>
@@ -170,8 +170,4 @@
     background-color: var(--lightGrey);
     margin-left: 2%;
   }
-  .button{
-    background-color: var(--accentColor);
-  }
-
 </style>
