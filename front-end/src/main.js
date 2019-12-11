@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import Vuex from 'vuex'
 
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:5000';
@@ -18,12 +19,37 @@ Vue.use(Buefy, {
   defaultIconPack: "fas",
 });
 
+Vue.use(Vuex);
+
+/* The vuex Store */
+const store = new Vuex.Store({
+  state: {
+    loggedIn: false,
+  },
+  mutations: {
+    loginSuccessful(state) {
+      state.loggedIn = true;
+    },
+
+    logoutSuccessful(state) {
+      state.loggedIn = false;
+    },
+  },
+
+  getters: {
+    loggedIn(state) {
+      return state.loggedIn;
+    },
+  },
+});
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 });
