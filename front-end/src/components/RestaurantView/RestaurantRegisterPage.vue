@@ -69,6 +69,16 @@
           >
           </b-input>
         </b-field>
+        <b-field label="Restaurant website" id="websiteText" style="width: 60%">
+          <b-input
+            type="website"
+            placeholder="Your website"
+            required
+            id="websiteRegister"
+            rounded
+          >
+          </b-input>
+        </b-field>
         <h4 style="font-weight: bold; margin-bottom: 1%">Address</h4>
         <b-field grouped>
           <b-field label="HN" style="width: 10%">
