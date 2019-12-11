@@ -64,10 +64,13 @@ class Place(db.Model):
             if attr in Place.place_attrs:
                 setattr(self, attr, data[attr])
                 # setattr(new_place, attr, None)
-        for attr in data['address'].keys():
-            # Setting all attributes
-            if attr in Address.address_attrs:
-                setattr(address, attr, data['address'][attr])
+        try:
+            for attr in data['address'].keys():
+                # Setting all attributes
+                if attr in Address.address_attrs:
+                    setattr(address, attr, data['address'][attr])
+        except KeyError:
+            pass
 
         db.session.add(self)
         db.session.commit()
