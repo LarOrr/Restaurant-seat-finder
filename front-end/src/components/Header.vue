@@ -1,14 +1,43 @@
 <template>
   <header class="header has-text-centered">
-    <div class="content font-header">
-      <p id="headerContent">Restaurant Seat Finder</p>
+    <div class="columns">
+      <div class="column is-9 content font-header">
+        <p id="headerContent">Restaurant Seat Finder</p>
+      </div>
+
+      <div class="column is-3">
+        <b-button class="button is-primary" @click="redirectLogin" v-show="!loggedIn">
+          Login
+        </b-button>
+        
+        <b-button class="button is-primary" @click="redirectAccountPage" v-show="loggedIn">
+          My account
+        </b-button>
+      </div>
     </div>
+
   </header>
 </template>
 
 <script>
   export default {
     name: "Header",
+
+    computed: {
+      loggedIn() {
+        return this.$store.state.loggedIn;
+      },
+    },
+
+    methods: {
+      redirectLogin() {
+        this.$router.push('Login');
+      },
+
+      redirectAccountPage() {
+        //does nothing for now
+      },
+    },
   }
 </script>
 

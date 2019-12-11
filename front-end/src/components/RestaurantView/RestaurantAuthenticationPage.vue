@@ -44,6 +44,7 @@
         await timing.sleep(1000);
         this.isLoading = false;
         this.$router.push({name: 'MyRestaurant', params: {sessionId: 'fakeSessionId'}});
+        this.$store.commit('loginSuccessful');
       },
     },
   }
