@@ -61,8 +61,8 @@
     /*background: linear-gradient(to bottom, #960d04 0%, #d10d00 100%);*/
     background-image: url("../assets/background4.jpg");
     background-size: cover;
-    margin: 0% 0 5% 0;
-    height: 50px;
+    margin: 0 0 5% 0;
+    height: 10%;
     width: 105%;
   }
 
