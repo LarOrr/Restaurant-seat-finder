@@ -1,15 +1,17 @@
 <template>
   <header class="header has-text-centered">
-    <div class="columns">
-      <div class="column is-9 content font-header">
-        <p id="headerContent">Restaurant Seat Finder</p>
+    <div class="columns is-mobile">
+      <div class="column content font-header">
+        <router-link tag="p" to="/" style="display:inline-block; cursor: pointer;">
+          <p id="headerContent">Restaurant Seat Finder</p>
+        </router-link>
       </div>
 
-      <div class="column is-3">
+      <div class="column has-text-right" style="margin-right: 5%">
         <b-button class="button is-primary" @click="redirectLogin" v-show="!loggedIn">
           Login
         </b-button>
-        
+
         <b-button class="button is-primary" @click="redirectAccountPage" v-show="loggedIn">
           My account
         </b-button>
