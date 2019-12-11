@@ -1,16 +1,25 @@
 <template>
   <div class="columns">
-    <div class="column is-10 is-offset-1">
+    <div class="column is-4 is-offset-1">
       <h2>{{$props.reasonMessage}}</h2>
       <b-field label="username">
-        <b-input placeholder="username" class="rest-view-login-inputs"></b-input>
+        <b-input placeholder="username"></b-input>
       </b-field>
 
       <b-field label="password">
-        <b-input type="password" placeholder="password" password-reveal class="rest-view-login-inputs"></b-input>
+        <b-input type="password" placeholder="password" password-reveal></b-input>
       </b-field>
 
-      <b-button class="button is-primary" @click="authenticate">log in</b-button>
+      <div class="columns">
+        <div class="column is-1">
+          <b-button class="button is-primary" @click="authenticate" style="display: inline-block;">log in</b-button>
+        </div>
+
+        <div class="column">
+          <router-link class="has-text-right" to="/register"><p class="has-text-right" style="margin: 1% 1% 0 0;">I don't have a restaurant account yet</p></router-link>
+        </div>
+      </div>
+
     </div>
 
     <b-loading :active="isLoading"></b-loading>
