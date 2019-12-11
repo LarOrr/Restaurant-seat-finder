@@ -8,6 +8,7 @@ class Address(db.Model):
     postcode = db.Column(db.String(10))  # the longest postcode is 10 chars
     city = db.Column(db.String(100))
     country = db.Column(db.String(100))
+    # Attributes of Address for creation, update and retrieve
     address_attrs = ['street', 'house_number', 'postcode', 'city', 'country']
 
     def to_dict(self) -> dict:
@@ -18,7 +19,6 @@ class Address(db.Model):
         for attr in self.address_attrs:
             res[attr] = getattr(self, attr)
         # res = self.__dict__
-
         return res
 
 
@@ -27,15 +27,18 @@ class Place(db.Model):
     name = db.Column(db.String(50))
     description = db.Column(db.String(255))
     # TODO cuisine = db.Column(db.String(255))
-    kind = db.Column(db.String(50), default='other')  # Can be: restaurant, cafe, bar, fast food, fast casual, other
+    type = db.Column(db.String(50), default='other')  # Can be: restaurant, cafe, bar, fast food, fast casual, other
     total_seats = db.Column(db.Integer)
-    free_seats = db.Column(db.Integer)
+    free_seats = db.Column(db.Integer, default=0)
+    email = db.Column(db.String(50))
+    website = db.Column(db.String(50))
+    phone_number = db.Column(db.String(50))
     # One to one relationship with address
     address_id = db.Column(db.Integer, db.ForeignKey(Address.id))
     address = db.relationship(Address, backref='place', uselist=False)
-    # Attributes of Place
-    place_attrs = ['name', 'description', 'kind', 'total_seats', 'free_seats']
-        # self.__table__.columns.keys()
+    # Attributes of Place for creation, update and retrieve
+    place_attrs = ['name', 'description', 'type', 'total_seats', 'free_seats', 'email', 'website', 'phone_number']
+    # Or try to use self.__table__.columns.keys()
 
     def to_dict(self) -> dict:
         """
@@ -47,3 +50,26 @@ class Place(db.Model):
             res[attr] = getattr(self, attr)
         return res
 
+    def update_info(self, data: dict):
+        """
+            Updates place with information given in json
+            :param data: json with data
+            :return: Place id
+            :exception possible KeyError or TypeError if something is wrong with data
+            """
+        address = self.address
+        # TODO check for data types - for now we suppose that all coming data is correct
+        for attr in data.keys():
+            # Setting all attributes
+            if attr in Place.place_attrs:
+                setattr(self, attr, data[attr])
+                # setattr(new_place, attr, None)
+        for attr in data['address'].keys():
+            # Setting all attributes
+            if attr in Address.address_attrs:
+                setattr(address, attr, data['address'][attr])
+
+        db.session.add(self)
+        db.session.commit()
+        db.session.refresh(self)
+        return self.id
