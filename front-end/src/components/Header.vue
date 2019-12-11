@@ -8,10 +8,14 @@
       </div>
 
       <div class="column has-text-right" style="margin-right: 5%">
-        <b-button class="button is-primary" @click="redirectLogin" v-show="!loggedIn">
+        <b-field grouped position="is-right">
+        <b-button class="button is-primary" style="margin-right: 2%" @click="redirectLogin" v-show="!loggedIn">
           Login
         </b-button>
-
+        <b-button class="button is-primary" @click="redirectRegister" v-show="!loggedIn">
+          Register
+        </b-button>
+        </b-field>
         <b-button class="button is-primary" @click="redirectAccountPage" v-show="loggedIn">
           My account
         </b-button>
@@ -22,9 +26,10 @@
 </template>
 
 <script>
+  import BField from "buefy/src/components/field/Field";
   export default {
     name: "Header",
-
+    components: {BField},
     computed: {
       loggedIn() {
         return this.$store.state.loggedIn;
@@ -37,7 +42,11 @@
           this.$router.push('Login');
         }
       },
-
+      redirectRegister() {
+        if(!(this.$route.name === 'Register')) {
+          this.$router.push('Register');
+        }
+      },
       redirectAccountPage() {
         //does nothing for now
       },
