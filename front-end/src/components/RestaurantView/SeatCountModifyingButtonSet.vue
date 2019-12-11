@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div class="is-tablet">
+    <div class="is-hidden-mobile">
       <!-- For non mobile -->
+      <!-- TODO: make the size of these buttons more consistent by giving all of them the same width -->
       <b-button type="is-primary" @click="modifySeats(1)" class="is-large" style="margin: 0.5%;">{{getSimpleSign()}}</b-button>
       <br>
       <b-button
@@ -15,7 +16,30 @@
       </b-button>
     </div>
 
-    <div class="is-mobile">Not implemented yet</div>
+    <div class="is-hidden-tablet has-text-centered">
+      <!-- Button for positive direction on mobile-->
+      <template  v-if="isPos()">
+        <b-button type="is-primary" class="is-large" @click="modifySeats(1)" style="margin: 0 0.5% 0.5% 0.5%;">{{getSimpleSign()}}</b-button>
+        <br>
+      </template>
+
+      <b-button
+        v-for="i in Array.from({length: modifiers.length}, (v, ind) => ind)"
+        type="is-primary"
+        @click="modifySeats(orderedModifiers[i])"
+        :key="i"
+        style="margin: 0.5%;"
+      >
+        {{getButtonString(orderedModifiers[i])}}
+      </b-button>
+
+      <!-- Button for negative direction on mobile -->
+      <template v-if="!isPos()">
+        <br>
+        <b-button type="is-primary" class="is-large" @click="modifySeats(1)" style="margin: 0.5% 0.5% 0 0.5%;">{{getSimpleSign()}}</b-button>
+      </template>
+
+    </div>
   </div>
 </template>
 
@@ -69,7 +93,11 @@
 
       modifySeats(unsignedNum) {
         this.$emit('modify-seats', this.getSignedNum(unsignedNum));
-      }
+      },
+
+      isPos() {
+        return PosNegEnum.isPositive(this.$props.direction);
+      },
     },
   }
 </script>

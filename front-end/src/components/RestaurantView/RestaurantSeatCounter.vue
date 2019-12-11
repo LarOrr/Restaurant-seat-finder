@@ -8,9 +8,17 @@
           >
           </SeatCountModifyingButtonSet>
         </div>
-        <div class="column is-2">
+
+        <!-- seat number for anything else-->
+        <div class="column is-2 is-hidden-mobile">
           <p class="rest-view-seat-count">{{emptySeats}}</p>
         </div>
+
+        <!-- seat number for mobile -->
+        <div class="column is-2 is-hidden-tablet" style="margin: -4%;">
+          <p class="rest-view-seat-count">{{emptySeats}}</p>
+        </div>
+
         <div class="column is-5" style="text-align: left;">
           <SeatCountModifyingButtonSet :direction="PNenum.positive" v-on:modify-seats="modifySeats($event)"
           >
