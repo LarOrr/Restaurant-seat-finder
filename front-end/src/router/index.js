@@ -4,6 +4,7 @@ import HomePage from "../components/HomePage";
 import RestaurantMainView from "../components/RestaurantView/RestaurantMainView";
 import NotFoundPage from "../components/NotFoundPage";
 import RestaurantAuthenticationPage from "../components/RestaurantView/RestaurantAuthenticationPage";
+import RestaurantRegisterPage from "../components/RestaurantView/RestaurantRegisterPage";
 
 Vue.use(Router);
 
@@ -20,6 +21,12 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: RestaurantAuthenticationPage,
+      props: true,
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: RestaurantRegisterPage,
       props: true,
     },
     {
