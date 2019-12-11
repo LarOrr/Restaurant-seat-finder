@@ -126,12 +126,23 @@
             </b-input>
           </b-field>
         </b-field>
+        <b-field label="Total seats" style="width: 10%">
+          <b-input
+            type="house-number"
+            placeholder="Your house number"
+            required
+            id="houseNumberRegister"
+            rounded
+          >
+          </b-input>
+        </b-field>
         <b-field label="Description" style="width: 90%">
           <b-input maxlength="300" type="textarea"></b-input>
         </b-field>
-
+        <b-field>
         <b-checkbox id="rememberCheckRegister" v-model="remember"><p id="registerRemember">Remember me</p></b-checkbox>
-        <button class="button is-right" @click.prevent="register" id="registerButton">Sign Up</button>
+        </b-field>
+          <button class="button is-right" @click.prevent="register" id="registerButton">Sign Up</button>
       </div>
 
       <b-loading :active="isLoading"></b-loading>
@@ -158,6 +169,9 @@
     width: 105%;
     background-color: var(--lightGrey);
     margin-left: 2%;
+  }
+  .button{
+    background-color: var(--accentColor);
   }
 
 </style>

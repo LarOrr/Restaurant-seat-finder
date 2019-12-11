@@ -16,7 +16,8 @@
         </div>
 
         <div class="column">
-          <router-link class="has-text-right" to="/register"><p class="has-text-right" style="margin: 1% 1% 0 0;">I don't have a restaurant account yet</p></router-link>
+          <router-link class="has-text-right" to="/register"><p class="has-text-right" style="margin: 1% 1% 0 0;">I
+            don't have a restaurant account yet</p></router-link>
         </div>
       </div>
 
