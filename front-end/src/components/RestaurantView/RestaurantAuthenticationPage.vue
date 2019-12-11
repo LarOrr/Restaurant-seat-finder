@@ -15,9 +15,8 @@
           <b-button class="button is-primary" @click="authenticate" style="display: inline-block;">log in</b-button>
         </div>
 
-        <div class="column">
-          <router-link class="has-text-right" to="/register"><p class="has-text-right" style="margin: 1% 1% 0 0;">I
-            don't have a restaurant account yet</p></router-link>
+        <div class="column has-text-right">
+          <router-link to="/register"><p style="margin: 1% 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p></router-link>
         </div>
       </div>
 

@@ -8,6 +8,7 @@ app = Flask(__name__)
 CORS(app)
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 from places_database import Place, Address
