@@ -1,17 +1,21 @@
 <template>
   <div>
-    <!-- TODO: Make these buttons look better on mobile -->
-    <b-button type="is-primary" @click="modifySeats(1)" class="is-large" style="margin: 0.5%;">{{getSimpleSign()}}</b-button>
-    <br>
-    <b-button
-      v-for="i in Array.from({length: modifiers.length}, (v, ind) => ind)"
-      type="is-primary"
-      @click="modifySeats(orderedModifiers[i])"
-      :key="i"
-      style="margin: 0.5%;"
-    >
-      {{getButtonString(orderedModifiers[i])}}
-    </b-button>
+    <div class="is-tablet">
+      <!-- For non mobile -->
+      <b-button type="is-primary" @click="modifySeats(1)" class="is-large" style="margin: 0.5%;">{{getSimpleSign()}}</b-button>
+      <br>
+      <b-button
+        v-for="i in Array.from({length: modifiers.length}, (v, ind) => ind)"
+        type="is-primary"
+        @click="modifySeats(orderedModifiers[i])"
+        :key="i"
+        style="margin: 0.5%;"
+      >
+        {{getButtonString(orderedModifiers[i])}}
+      </b-button>
+    </div>
+
+    <div class="is-mobile">Not implemented yet</div>
   </div>
 </template>
 

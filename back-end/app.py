@@ -13,6 +13,7 @@ db = SQLAlchemy(app)
 
 from places_database import Place, Address
 
+# TODO delete
 
 @app.route('/places/<place_id>', methods=['GET'])
 def get_place(place_id):
@@ -21,38 +22,6 @@ def get_place(place_id):
     """
     place = Place.query.get(place_id)
     return jsonify(place.to_dict())
-
-
-def update_place(place: Place, data: dict):
-    """
-    Updates place with information given in json
-    :param place: Plcae object
-    :param data: json with data
-    :return: Place id
-    """
-    address = place.address
-    # TODO make more efficient
-    try:
-        for attr in Place.place_attrs:
-            # Setting all attributes
-            try:
-                setattr(place, attr, data[attr])
-            except KeyError:
-                pass
-                # setattr(new_place, attr, None)
-        for attr in Address.address_attrs:
-            # Setting all attributes
-            try:
-                setattr(address, attr, data['address'][attr])
-            except KeyError:
-                pass
-                # setattr(address, attr, None)
-    except KeyError or TypeError:
-        abort(400)
-    db.session.add(place)
-    db.session.commit()
-    db.session.refresh(place)
-    return place.id
 
 
 @app.route('/places', methods=['POST'])
@@ -64,7 +33,7 @@ def create_new_place():
     data = request.json
     new_place = Place()
     new_place.address = Address()
-    update_place(new_place, data)
+    new_place.update_info(data)
     return get_place(new_place.id)
 
 
@@ -78,7 +47,7 @@ def get_all_places():
 
 
 @app.route('/places/<place_id>', methods=['PATCH'])
-def patch_place(place_id):
+def patch_place(place_id: int):
     """
     Changes number of free seats of place with that id
     :param place_id: id of the place
@@ -86,7 +55,7 @@ def patch_place(place_id):
     place = Place.query.get(place_id)
     data = request.json
     # TODO separate for just free seats and make it more efficient
-    update_place(place, data)
+    place.update_info(data)
     return get_place(place_id)
 
 

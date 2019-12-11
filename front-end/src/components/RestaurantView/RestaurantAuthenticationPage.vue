@@ -1,40 +1,64 @@
 <template>
   <div class="content">
-  <div class="columns">
-    <div class="column is-4 is-offset-1">
-      <h2>{{$props.reasonMessage}}</h2>
-      <b-field label="username" style = "width: 80%">
-        <b-input placeholder="username"></b-input>
-      </b-field>
+    <div class="columns is-mobile">
+      <div class="column is-5 is-hidden-touch is-offset-1">
+        <h2>{{$props.reasonMessage}}</h2>
+        <b-field label="username">
+          <b-input placeholder="username"></b-input>
+        </b-field>
 
-      <b-field label="password" style = "width: 80%">
-        <b-input type="password" placeholder="password" password-reveal></b-input>
-      </b-field>
+        <b-field label="password">
+          <b-input type="password" placeholder="password" password-reveal></b-input>
+        </b-field>
 
-      <div class="columns">
-        <div class="column is-1">
-          <b-button class="button is-primary" @click="authenticate" style="display: inline-block;">log in</b-button>
+        <div class="columns">
+          <div class="column is-1">
+            <b-button class="button is-primary" @click="authenticate" style="display: inline-block;">log in</b-button>
+          </div>
+
+          <div class="column has-text-right is-mobile">
+            <router-link to="/register"><p style="margin: 1% 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p></router-link>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="column is-10 is-offset-1 is-hidden-desktop">
+        <h2>{{$props.reasonMessage}}</h2>
+        <b-field label="username">
+          <b-input placeholder="username"></b-input>
+        </b-field>
+
+        <b-field label="password">
+          <b-input type="password" placeholder="password" password-reveal></b-input>
+        </b-field>
+
+        <div class="columns is-mobile">
+          <div class="column is-1">
+            <b-button class="button is-primary" @click="authenticate" style="display: inline-block;">log in</b-button>
+          </div>
+
+          <div class="column has-text-right">
+            <router-link to="/register">
+              <p class="is-hidden-mobile" style="margin: 1% 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
+              <p class="is-hidden-tablet">Register</p>
+            </router-link>
+          </div>
         </div>
       </div>
-        <div class="column">
-          <router-link to="/register"><p style="margin: 1% 1% 0 0; display:inline-block; color: red;">I don't have a restaurant account yet</p></router-link>
-        </div>
 
 
+      <b-loading :active="isLoading"></b-loading>
     </div>
-
-    <b-loading :active="isLoading"></b-loading>
-  </div>
   </div>
 </template>
 
 <script>
   import timing from '../../utils/Timing';
-  import BField from "buefy/src/components/field/Field";
 
   export default {
     name: "RestaurantAuthenticationPage",
-    components: {BField},
+
     props: {
       reasonMessage: {
         type: String,
@@ -64,8 +88,7 @@
 
 <style scoped>
 .content{
-  width: 105%;
-  margin-left: 2%;
+  width: 100%;
   background-color: var(--lightGrey);
 }
 </style>
