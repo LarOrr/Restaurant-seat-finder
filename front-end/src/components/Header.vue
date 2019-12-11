@@ -33,7 +33,9 @@
 
     methods: {
       redirectLogin() {
-        this.$router.push('Login');
+        if(!(this.$route.name === 'Login')) {
+          this.$router.push('Login');
+        }
       },
 
       redirectAccountPage() {
