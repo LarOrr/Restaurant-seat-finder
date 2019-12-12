@@ -18,7 +18,10 @@ places = [
      'total_seats': 20, 'free_seats': 2}
     ]
 
-for place in places:
+for place_dict in places:
     new_place = Place()
+    if not ('username' in place_dict and 'password' in place_dict):
+        place_dict['username'] = place_dict['name'] + '_username'
+        place_dict['password'] = place_dict['name'] + '_password'
     new_place.address = Address()
-    new_place.update_info(place)
+    new_place.update_info(place_dict)

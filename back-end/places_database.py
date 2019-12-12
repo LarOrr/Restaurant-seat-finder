@@ -23,6 +23,11 @@ class Address(db.Model):
 
 
 class Place(db.Model):
+    # --- Login ---
+    username = db.Column(db.String(32), unique=True)
+    # TODO add hashing!
+    password = db.Column(db.String(128))
+    # --- ---
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     description = db.Column(db.String(255))
@@ -61,17 +66,14 @@ class Place(db.Model):
         # TODO check for data types - for now we suppose that all coming data is correct
         for attr in data.keys():
             # Setting all attributes
-            if attr in Place.place_attrs:
+            if attr in (Place.place_attrs + ['username', 'password']):
                 setattr(self, attr, data[attr])
                 # setattr(new_place, attr, None)
-        try:
+        if 'address' in data:
             for attr in data['address'].keys():
                 # Setting all attributes
                 if attr in Address.address_attrs:
                     setattr(address, attr, data['address'][attr])
-        except KeyError:
-            pass
-
         db.session.add(self)
         db.session.commit()
         db.session.refresh(self)
