@@ -81,8 +81,9 @@
         this.isLoading = true;
         await timing.sleep(1000);
         this.isLoading = false;
-        this.$router.push({name: 'MyRestaurant', params: {sessionId: 'fakeSessionId'}});
-        this.$store.commit('loginSuccessful');
+        let authToken = 'fakeAuthToken';
+        await this.$store.commit('loginSuccessful', authToken);
+        this.$router.push('MyRestaurant');
       },
     },
   }

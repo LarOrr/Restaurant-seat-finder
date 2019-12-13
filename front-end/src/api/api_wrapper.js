@@ -25,4 +25,9 @@ export default {
       return error.response;
     });
   },
+
+  authenticate(authToken) {
+    //for now, say everything is authenticated
+    return true;
+  },
 }

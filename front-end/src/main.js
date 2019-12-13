@@ -25,20 +25,33 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     loggedIn: false,
+    authToken: null,
   },
   mutations: {
-    loginSuccessful(state) {
-      state.loggedIn = true;
-    },
-
-    logoutSuccessful(state) {
-      state.loggedIn = false;
+    newAuthToken(state, authToken) {
+      state.authToken = authToken;
     },
   },
 
   getters: {
     loggedIn(state) {
       return state.loggedIn;
+    },
+
+    authToken(state) {
+      return state.authToken;
+    },
+  },
+
+  actions: {
+    loginSuccessful(state, authToken) {
+      state.loggedIn = true;
+      this.newAuthToken(state, authToken)
+    },
+
+    logoutSuccessful(state) {
+      state.loggedIn = false;
+      this.newAuthToken(state, null);
     },
   },
 });

@@ -24,16 +24,11 @@
 
 <script>
   import RestaurantSeatCounter from "./RestaurantSeatCounter";
+  import api from '../../api/api_wrapper';
+
   export default {
     name: "RestaurantMainView",
     components: {RestaurantSeatCounter},
-    props: {
-      sessionId: {
-        type: String,
-        required: false,
-        default: null,
-      },
-    },
 
 
     data() {
@@ -52,12 +47,6 @@
             street: "Greenstraat",
           }
         },
-      }
-    },
-
-    mounted() {
-      if(!this.$props.sessionId) {
-        this.$router.push({name: 'Login', params: {reasonMessage: 'Your session has expired, please log in again'}});
       }
     },
 

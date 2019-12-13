@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HomePage from "../components/HomePage";
+import Vue from 'vue';
+import Router from 'vue-router';
+import HomePage from "../components/UserView/HomePage";
 import RestaurantMainView from "../components/RestaurantView/RestaurantMainView";
-import NotFoundPage from "../components/NotFoundPage";
+import NotFoundPage from "../components/PageAddons/NotFoundPage";
 import RestaurantAuthenticationPage from "../components/RestaurantView/RestaurantAuthenticationPage";
 import RestaurantRegisterPage from "../components/RestaurantView/RestaurantRegisterPage";
 

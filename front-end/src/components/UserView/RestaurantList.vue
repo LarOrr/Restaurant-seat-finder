@@ -64,7 +64,7 @@
 
 <script>
   import CompactRestaurant from "./CompactRestaurant";
-  import api from "../api/api_wrapper";
+  import api from "../../api/api_wrapper";
   import DetailedRestaurant from "./DetailedRestaurant";
   import RestaurantSeatUpdater from "./RestaurantSeatUpdater";
 

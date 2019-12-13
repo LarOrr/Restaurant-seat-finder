@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "./components/PageAddons/Header";
+import Footer from "./components/PageAddons/Footer";
 export default {
   name: 'App',
   components: {Footer, Header},
