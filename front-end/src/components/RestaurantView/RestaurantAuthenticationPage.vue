@@ -124,10 +124,9 @@
         this.isLoading = true;
         let authToken;
         api.requestAuthToken(this.username, this.password).then((response) => {
-          console.log(response);
           if(response.status === 200) {
-            authToken = response.data.authToken;
-            this.$store.commit('loginSuccessful', authToken, (this.rememberMe ? this.lifetime : 0));
+            authToken = response.data.token;
+            this.$store.dispatch('loginSuccessful', {authToken: authToken, lifetime: (this.rememberMe ? this.lifetime : 0)});
             this.$router.push({name: 'MyRestaurant', params: {authToken: authToken}});
           }
           else {

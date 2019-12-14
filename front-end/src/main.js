@@ -38,6 +38,10 @@ const store = new Vuex.Store({
     setAuthToken(state, authToken) {
       state.authToken = authToken;
     },
+
+    setLoggedIn(state, bool) {
+      state.loggedIn = bool;
+    },
   },
 
   getters: {
@@ -51,19 +55,20 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    newAuthToken(state, authToken, lifetime) {
-      this.setAuthToken(state, authToken);
-      cookieHandler.createCookie('authToken', authToken, lifetime);
+    newAuthToken(state, params) {
+      this.commit('setAuthToken', params.authToken);
+      console.log(params.authToken);
+      cookieHandler.createCookie('authToken', params.authToken, params.lifetime);
     },
 
-    loginSuccessful(state, authToken, lifetime) {
-      state.loggedIn = true;
-      this.newAuthToken(state, authToken, lifetime);
+    loginSuccessful(state, params) {
+      state.commit('setLoggedIn', true);
+      this.dispatch('newAuthToken', params);
     },
 
     logoutSuccessful(state) {
-      state.loggedIn = false;
-      this.newAuthToken(state, null);
+      state.commit('setLoggedIn', false);
+      this.dispatch('newAuthToken', {});
     },
   },
 });

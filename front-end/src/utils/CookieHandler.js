@@ -84,15 +84,16 @@ export default {
   /**
    * gets the value of a cookie
    * @param {String} key: the key of the cookie
+   * @param {Number} maxLength: the maximum length of the cookie, leave empty for 100
    * @returns {undefined|*|string}: the value of the cookie, or undefined if the cookie does not exist
    */
-  getCookie(key) {
+  getCookie(key, maxLength) {
     //we get the index of the first letter, add the length of the key to get to the end index of the key,
     //and then add one to 'skip' the '=' sign between the key and the value
     let startInd = document.cookie.indexOf(key) + key.length + 1;
     //if the startInd >= key.length + 1, indexOf must have returned 0 or higher, i.e. the key was found
     if(startInd >= key.length+1) {
-      return this.takeUntil(document.cookie, ';', startInd);
+      return this.takeUntil(document.cookie, ';', startInd, maxLength);
     }
     //if the startInd < key.length + 1, indexOf must have returned -1, i.e. the key was not found
     return undefined;

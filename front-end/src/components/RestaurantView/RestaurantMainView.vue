@@ -34,7 +34,8 @@
     props: {
       authToken: {
         type: String,
-        required: true,
+        required: false,
+        default: null,
       },
     },
 
@@ -58,13 +59,17 @@
     },
 
     beforeRouteEnter(to, from, next) {
-      if(!(from.params.authToken || cookieHandler.getCookie('authToken'))) {
+      if(!(from.params.authToken || cookieHandler.getCookie('authToken', 512))) {
         next({name: 'Login', params: {reasonMessage: 'No session token found, please log in'}});
       }
       //else is important, otherwise next() would be called twice if the user is not authorized!
       else {
         next();
       }
+    },
+
+    mounted() {
+      this.$store.dispatch('loginSuccessful', {authToken: this.$props.authToken});
     },
 
     methods: {
