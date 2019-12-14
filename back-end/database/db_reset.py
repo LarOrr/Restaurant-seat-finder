@@ -1,4 +1,4 @@
-# ! Problems with import
+# ! Problems with import - to run from console use "python3 db_reset.py"
 from app import db
 from places_database import Address, Place
 

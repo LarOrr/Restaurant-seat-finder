@@ -38,7 +38,7 @@ def login():
         return jsonify({'success': False, 'message': 'Bad username or password'}), 401
     # Identity by id
     access_token = create_access_token(identity=place.id)
-    return jsonify({'success': True, 'token': access_token}), 200
+    return jsonify({'success': True, 'token': access_token, 'place': place.to_dict()}), 200
 #  TODO Logout
 # ------------------------------------------ // LOGIN ------------------------------------------------------------------
 
