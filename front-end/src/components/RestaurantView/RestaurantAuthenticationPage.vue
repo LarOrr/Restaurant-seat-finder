@@ -3,12 +3,24 @@
     <div class="columns is-mobile">
       <div class="column is-5 is-hidden-touch is-offset-1">
         <h2>{{$props.reasonMessage}}</h2>
-        <b-field label="username">
-          <b-input v-model="username" placeholder="username"></b-input>
+        <b-field label="username"  :type="authenticationFailed ? 'is-danger' : ''">
+          <b-input v-model="username" placeholder="username" @input="authenticationFailed = false"></b-input>
         </b-field>
 
-        <b-field label="password">
-          <b-input v-model="password" type="password" placeholder="password" password-reveal></b-input>
+        <b-field label="password" :type="authenticationFailed ? 'is-danger' : ''">
+          <b-input v-model="password" type="password" placeholder="password" password-reveal @input="authenticationFailed = false"></b-input>
+        </b-field>
+
+        <b-field grouped>
+          <b-checkbox v-model="rememberMe">
+            remember me
+          </b-checkbox>
+          &nbsp
+          <b-select v-model="lifetime" placeholder="select time" :disabled="!rememberMe">
+            <option v-for="dayCount in lifetimes" :value="dayCount.value" :key="dayCount.value">
+              {{dayCount.displayName + ' ' + dayCount.displaySuffix}}
+            </option>
+          </b-select>
         </b-field>
 
         <div class="columns">
@@ -27,12 +39,24 @@
 
       <div class="column is-10 is-offset-1 is-hidden-desktop">
         <h2>{{$props.reasonMessage}}</h2>
-        <b-field label="username">
-          <b-input v-model="username" placeholder="username"></b-input>
+        <b-field label="username" :type="authenticationFailed ? 'is-danger' : ''">
+          <b-input v-model="username" placeholder="username" @input="authenticationFailed = false"></b-input>
         </b-field>
 
-        <b-field label="password">
-          <b-input v-model="password" type="password" placeholder="password" password-reveal></b-input>
+        <b-field label="password" :type="authenticationFailed ? 'is-danger' : ''">
+          <b-input v-model="password" type="password" placeholder="password" password-reveal @input="authenticationFailed = false"></b-input>
+        </b-field>
+
+        <b-field grouped>
+          <b-checkbox v-model="rememberMe">
+            remember me
+          </b-checkbox>
+          &nbsp
+          <b-select v-model="lifetime" placeholder="select time" :disabled="!rememberMe">
+            <option v-for="dayCount in lifetimes" :value="dayCount.value" :key="dayCount.value">
+              {{dayCount.displayName + ' ' + dayCount.displaySuffix}}
+            </option>
+          </b-select>
         </b-field>
 
         <div class="columns is-mobile">
@@ -57,6 +81,7 @@
 
 <script>
   import api from '../../api/api_wrapper';
+  import cookieHandler from '../../utils/CookieHandler';
 
   export default {
     name: "RestaurantAuthenticationPage",
@@ -69,12 +94,23 @@
       },
     },
 
+    computed: {
+      lifetimes() {
+        return cookieHandler.lifetimes;
+      },
+    },
+
     data() {
       return {
         isLoading: false,
 
         username: null,
         password: null,
+
+        rememberMe: false,
+        lifetime: 1,
+
+        authenticationFailed: false,
       }
     },
 
@@ -91,7 +127,7 @@
           console.log(response);
           if(response.status === 200) {
             authToken = response.data.authToken;
-            this.$store.commit('loginSuccessful', authToken);
+            this.$store.commit('loginSuccessful', authToken, (this.rememberMe ? this.lifetime : 0));
             this.$router.push({name: 'MyRestaurant', params: {authToken: authToken}});
           }
           else {
@@ -100,6 +136,7 @@
                   ((response && response.data && response.data.message) ? response.data.message : 'no reason provided'),
               type: 'is-danger',
             });
+            this.authenticationFailed = true;
             console.error(response.data.message);
           }
         });
