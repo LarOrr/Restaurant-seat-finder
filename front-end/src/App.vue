@@ -8,12 +8,19 @@
 </template>
 
 <script>
-import Header from "./components/PageAddons/Header";
-import Footer from "./components/PageAddons/Footer";
-export default {
-  name: 'App',
-  components: {Footer, Header},
-}
+  import Header from "./components/PageAddons/Header";
+  import Footer from "./components/PageAddons/Footer";
+
+
+  export default {
+    name: 'App',
+    components: {Footer, Header},
+
+    mounted() {
+      //TODO: login once we can reauthenticate with just an authToken
+
+    },
+  }
 </script>
 
 <style>

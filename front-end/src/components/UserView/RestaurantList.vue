@@ -37,24 +37,6 @@
         <footer class="card-footer">
           <a class="card-footer-item rest-list-footer-item" href="https://google.com" target="_blank">Visit Website</a>
         </footer>
-        <footer class="card-footer">
-          <a
-            class="card-footer-item rest-list-footer-item"
-            @click="initUpdateSeats(res.id)"
-            v-show="updatingStatuses[res.id] === FALSE"
-          >Update Amount of Seats</a>
-
-          <RestaurantSeatUpdater
-            :res-data="res"
-            v-show="updatingStatuses[res.id] === TRUE || updatingStatuses[res.id] === LOADING"
-            v-on:confirm="confirmUpdate(res.id, $event)"
-            v-on:cancel="closeUpdate(res.id)"
-            class="card-footer-item rest-list-footer-item"
-          >
-          </RestaurantSeatUpdater>
-        </footer>
-
-
       </b-collapse>
     </div>
 
@@ -66,28 +48,15 @@
   import CompactRestaurant from "./CompactRestaurant";
   import api from "../../api/api_wrapper";
   import DetailedRestaurant from "./DetailedRestaurant";
-  import RestaurantSeatUpdater from "./RestaurantSeatUpdater";
 
   export default {
     name: "RestaurantList",
-    components: {DetailedRestaurant, CompactRestaurant, RestaurantSeatUpdater},
+    components: {DetailedRestaurant, CompactRestaurant},
     data() {
       return {
-        //constants:
-        TRUE: 'true',
-        FALSE: 'false',
-        LOADING: 'loading',
-
         restaurants: [],
         opened: {},
         isLoading: true,
-        updatingStatuses: {},
-
-        testData: [
-          {id: 1, name: 'my restaurant', free_seats: 16, total_seats: 20},
-          {id: 2, name: 'another restaurant', free_seats: 10, total_seats: 36},
-          {id: 3, name: 'mama mia', free_seats: 2, total_seats: 40}
-        ],
       }
     },
 
@@ -105,13 +74,11 @@
           else {
             this.$buefy.toast.open({message: 'request failed with status code: ' + ((response && response.status) ? response.status : 'unknown status'), type: 'is-danger'});
             console.error(response);
-            this.restaurants = this.testData;
           }
           this.isLoading = false;
 
           for(let i = 0; i < this.restaurants.length; i++){
             this.opened[i+1] = false;
-            this.$set(this.updatingStatuses, this.restaurants[i].id, this.FALSE);
           }
         });
       },
@@ -120,13 +87,8 @@
         this.$set(this.opened, resId, !this.opened[resId]);
       },
 
-      initUpdateSeats(resId) {
-        this.$set(this.updatingStatuses, resId, this.TRUE);
-      },
-
       confirmUpdate(resId, amount) {
         console.log(resId + "'s amount of seats will be updated to " + amount);
-        this.$set(this.updatingStatuses, resId, this.LOADING);
         api.updateSeats(resId, amount).then((response) => {
           if(response && response.status === 200) {
             this.$buefy.toast.open({message: 'thank you for your contribution, the amount of free seats has been updated', type: 'is-success'});
@@ -143,12 +105,7 @@
             this.$buefy.toast.open({message: 'request failed with status code: ' + ((response && response.status) ? response.status : 'unknown status'), type: 'is-danger'});
             console.error(response);
           }
-          this.closeUpdate(resId);
         });
-      },
-
-      closeUpdate(resId) {
-        this.$set(this.updatingStatuses, resId, this.FALSE);
       },
     }
   }

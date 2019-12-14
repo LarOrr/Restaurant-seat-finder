@@ -108,7 +108,7 @@
         password: null,
 
         rememberMe: false,
-        lifetime: 1,
+        tokenLifetime: 1,
 
         authenticationFailed: false,
       }
@@ -126,8 +126,8 @@
         api.requestAuthToken(this.username, this.password).then((response) => {
           if(response.status === 200) {
             authToken = response.data.token;
-            this.$store.dispatch('loginSuccessful', {authToken: authToken, lifetime: (this.rememberMe ? this.lifetime : 0)});
-            this.$router.push({name: 'MyRestaurant', params: {authToken: authToken}});
+            this.$store.dispatch('loginSuccessful', {authToken: authToken, tokenLifetime: (this.rememberMe ? this.tokenLifetime : 0)});
+            this.$router.push({name: 'MyRestaurant', params: {authToken: authToken, resData: response.data.place}});
           }
           else {
             this.$buefy.toast.open({

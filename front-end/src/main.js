@@ -57,8 +57,7 @@ const store = new Vuex.Store({
   actions: {
     newAuthToken(state, params) {
       this.commit('setAuthToken', params.authToken);
-      console.log(params.authToken);
-      cookieHandler.createCookie('authToken', params.authToken, params.lifetime);
+      cookieHandler.createCookie('authToken', params.authToken, params.tokenLifetime);
     },
 
     loginSuccessful(state, params) {

@@ -40,6 +40,6 @@ export default new Router({
       path: '*',
       name: 'NotFoundPage',
       component: NotFoundPage,
-    }
+    },
   ],
 })

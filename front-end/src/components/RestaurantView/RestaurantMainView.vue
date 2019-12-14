@@ -6,7 +6,7 @@
       <h3>Amount of free seats:</h3>
     </div>
 
-    <div style="text-align: right; margin-right: calc(4% + 50px); ">
+    <div style="text-align: right; margin-right: calc(4% + 50px);">
       <b-icon
         pack="fas"
         icon="fas fa-user-circle"
@@ -37,25 +37,12 @@
         required: false,
         default: null,
       },
-    },
 
-    data() {
-      return {
-        //TODO: probably make this a prop later, when it comes from the actual back end
-        resData: {
-          name: 'Test Restaurant',
-          free_seats: 69,
-          total_seats: 420,
-          id: 8008135,
-          address: {
-            city: "Groningen",
-            country: "Netherlands",
-            house_number: "2",
-            postcode: "9321CV",
-            street: "Greenstraat",
-          }
-        },
-      }
+      resData: {
+        type: Object,
+        required: true,
+        default: null,
+      },
     },
 
     beforeRouteEnter(to, from, next) {
@@ -77,10 +64,10 @@
         console.log('the amount of free seats will be updated to ' + newAmount);
         api.updateSeats(this.$props.resData.id, newAmount, this.$props.authToken).then((response) => {
           if(response.status === 200) {
-            //TODO: handle a success by updating the view
-            console.log('successful update');
+            this.$buefy.toast.open({message: 'successfully updated the amount of seats to' + newAmount, type:'is-success'});
           }
           else {
+            this.$buefy.toast.open({message: 'could not update the amount of seats: ' + ((response && response.data && response.data.message) ? response.data.message : '')});
             console.error('update could not be completed', response);
           }
         });

@@ -17,7 +17,7 @@
         </b-button>
         </b-field>
         <b-button class="button is-primary" @click="redirectAccountPage" v-show="loggedIn">
-          My account
+          My Restaurant
         </b-button>
       </div>
     </div>
@@ -26,10 +26,9 @@
 </template>
 
 <script>
-  import BField from "buefy/src/components/field/Field";
   export default {
     name: "Header",
-    components: {BField},
+
     computed: {
       loggedIn() {
         return this.$store.state.loggedIn;
@@ -42,13 +41,17 @@
           this.$router.push('Login');
         }
       },
+
       redirectRegister() {
         if(!(this.$route.name === 'Register')) {
           this.$router.push('Register');
         }
       },
+
       redirectAccountPage() {
-        //does nothing for now
+        if(!(this.$route.name === 'MyRestaurant')) {
+          this.$router.push({name: 'MyRestaurant', params: {authToken: this.$store.state.authToken, resData: null}});
+        }
       },
     },
   }
