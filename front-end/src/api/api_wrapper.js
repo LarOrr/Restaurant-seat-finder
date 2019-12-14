@@ -15,9 +15,10 @@ export default {
     });
   },
 
-  updateSeats(id, updatedNum) {
+  updateSeats(id, updatedNum, authToken) {
     let requestBody = {free_seats: updatedNum};
-    console.log('making patch request to /places/' + id, requestBody);
+    let config = {headers: {Authorization: 'Bearer ' + authToken}};
+    console.log('making patch request to /places/' + id, requestBody, config);
     return axios.patch('/places/' + id, requestBody).then((response) => {
       return response;
     }, (error) => {
@@ -26,8 +27,15 @@ export default {
     });
   },
 
-  authenticate(authToken) {
-    //for now, say everything is authenticated
-    return true;
+  requestAuthToken(username, password) {
+    let requestBody = {username: username, password: password};
+    console.log('making post request to /login with: ', requestBody);
+    return axios.post('/login', requestBody).then((response) => {
+      console.log(response);
+      return response;
+    }, (error) => {
+      console.error(error);
+      return error.response;
+    });
   },
 }

@@ -4,11 +4,11 @@
       <div class="column is-5 is-hidden-touch is-offset-1">
         <h2>{{$props.reasonMessage}}</h2>
         <b-field label="username">
-          <b-input placeholder="username"></b-input>
+          <b-input v-model="username" placeholder="username"></b-input>
         </b-field>
 
         <b-field label="password">
-          <b-input type="password" placeholder="password" password-reveal></b-input>
+          <b-input v-model="password" type="password" placeholder="password" password-reveal></b-input>
         </b-field>
 
         <div class="columns">
@@ -28,11 +28,11 @@
       <div class="column is-10 is-offset-1 is-hidden-desktop">
         <h2>{{$props.reasonMessage}}</h2>
         <b-field label="username">
-          <b-input placeholder="username"></b-input>
+          <b-input v-model="username" placeholder="username"></b-input>
         </b-field>
 
         <b-field label="password">
-          <b-input type="password" placeholder="password" password-reveal></b-input>
+          <b-input v-model="password" type="password" placeholder="password" password-reveal></b-input>
         </b-field>
 
         <div class="columns is-mobile">
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import timing from '../../utils/Timing';
+  import api from '../../api/api_wrapper';
 
   export default {
     name: "RestaurantAuthenticationPage",
@@ -72,18 +72,38 @@
     data() {
       return {
         isLoading: false,
+
+        username: null,
+        password: null,
       }
     },
 
     methods: {
-      async authenticate() {
-        //for now, just move on
+      authenticate() {
+        if(!(this.username && this.password)) {
+          this.$buefy.toast.open({message: 'Please fill in both fields', type: 'is-danger'});
+          return;
+        }
+
         this.isLoading = true;
-        await timing.sleep(1000);
+        let authToken;
+        api.requestAuthToken(this.username, this.password).then((response) => {
+          console.log(response);
+          if(response.status === 200) {
+            authToken = response.data.authToken;
+            this.$store.commit('loginSuccessful', authToken);
+            this.$router.push({name: 'MyRestaurant', params: {authToken: authToken}});
+          }
+          else {
+            this.$buefy.toast.open({
+              message: 'Unable to login, reason: ' +
+                  ((response && response.data && response.data.message) ? response.data.message : 'no reason provided'),
+              type: 'is-danger',
+            });
+            console.error(response.data.message);
+          }
+        });
         this.isLoading = false;
-        let authToken = 'fakeAuthToken';
-        await this.$store.commit('loginSuccessful', authToken);
-        this.$router.push('MyRestaurant');
       },
     },
   }

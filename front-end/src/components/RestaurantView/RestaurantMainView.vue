@@ -30,6 +30,12 @@
     name: "RestaurantMainView",
     components: {RestaurantSeatCounter},
 
+    props: {
+      authToken: {
+        type: String,
+        required: true,
+      },
+    },
 
     data() {
       return {
@@ -50,10 +56,28 @@
       }
     },
 
+    beforeRouteEnter(to, from, next) {
+      if(!from.params.authToken) {
+        next({name: 'Login', params: {reasonMessage: 'No session token found, please log in'}});
+      }
+      //else is important, otherwise next() would be called twice if the user is not authorized!
+      else {
+        next();
+      }
+    },
+
     methods: {
       updateSeats(newAmount) {
-        //TODO: call the back end to update
         console.log('the amount of free seats will be updated to ' + newAmount);
+        api.updateSeats(this.$props.resData.id, newAmount, this.$props.authToken).then((response) => {
+          if(response.status === 200) {
+            //TODO: handle a success by updating the view
+            console.log('successful update');
+          }
+          else {
+            console.error('update could not be completed', response);
+          }
+        });
       },
     },
   }
