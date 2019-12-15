@@ -16,7 +16,7 @@
             remember me
           </b-checkbox>
           &nbsp
-          <b-select v-model="lifetime" placeholder="select time" :disabled="!rememberMe">
+          <b-select v-model="tokenLifetime" placeholder="select time" :disabled="!rememberMe">
             <option v-for="dayCount in lifetimes" :value="dayCount.value" :key="dayCount.value">
               {{dayCount.displayName + ' ' + dayCount.displaySuffix}}
             </option>
@@ -52,7 +52,7 @@
             remember me
           </b-checkbox>
           &nbsp
-          <b-select v-model="lifetime" placeholder="select time" :disabled="!rememberMe">
+          <b-select v-model="tokenLifetime" placeholder="select time" :disabled="!rememberMe">
             <option v-for="dayCount in lifetimes" :value="dayCount.value" :key="dayCount.value">
               {{dayCount.displayName + ' ' + dayCount.displaySuffix}}
             </option>
