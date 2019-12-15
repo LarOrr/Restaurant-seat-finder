@@ -33,6 +33,7 @@ class Place(db.Model):
     description = db.Column(db.String(255))
     # TODO cuisine = db.Column(db.String(255))
     type = db.Column(db.String(50), default='other')  # Can be: restaurant, cafe, bar, fast food, fast casual, other
+    # TODO place_types = ['restaurant']
     total_seats = db.Column(db.Integer)
     free_seats = db.Column(db.Integer, default=0)
     email = db.Column(db.String(50))

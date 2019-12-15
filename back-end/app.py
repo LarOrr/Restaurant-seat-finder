@@ -71,7 +71,9 @@ def create_new_place():
     new_place = Place()
     new_place.address = Address()
     new_place.update_info(data)
-    return get_place(new_place.id)
+    # TODO what if existing username
+    res = {'place': new_place.to_dict(), 'token': create_access_token(identity=new_place.id)}
+    return jsonify(res)
 
 
 @app.route('/places/<place_id>', methods=['PATCH'])
@@ -94,6 +96,7 @@ def patch_place(place_id: int):
 
 # TODO types endpoint
 # TODO delete endpoint
+# TODO place info by auth token
 
 
 if __name__ == '__main__':
