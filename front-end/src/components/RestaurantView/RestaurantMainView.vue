@@ -1,4 +1,3 @@
-<!-- This component assumes the restaurant is already authenticated, represented by the session-id prop -->
 <template>
   <div>
     <div>
@@ -34,35 +33,49 @@
     props: {
       authToken: {
         type: String,
-        required: false,
-        default: null,
+        required: true,
       },
 
       resData: {
         type: Object,
         required: true,
-        default: null,
       },
     },
 
-    beforeRouteEnter(to, from, next) {
-      if(!(from.params.authToken || cookieHandler.getCookie('authToken', 512))) {
+    data() {
+      return {
+        authToken: this.$props.authToken,
+        resData: this.$props.resData,
+      }
+    },
+
+    async beforeRouteEnter(to, from, next) {
+      let cookieToken = cookieHandler.getCookie('authToken', 512);
+      if(!(from.params.authToken || cookieToken)) {
         next({name: 'Login', params: {reasonMessage: 'No session token found, please log in'}});
       }
-      //else is important, otherwise next() would be called twice if the user is not authorized!
       else {
-        next();
+        api.reAuthenticate(cookieToken).then((response) => {
+          //authenticated
+          if(response.status === 200) {
+            next({params: {authToken: from.params.authToken ? from.params.authToken : cookieToken, resData: response.status.place}});
+          }
+          //not authenticated
+          else {
+            next({name: 'Login', params: {reasonMessage: 'Your session could not be verified, please log in again'}});
+          }
+        });
       }
     },
 
     mounted() {
-      this.$store.dispatch('loginSuccessful', {authToken: this.$props.authToken});
+      this.$store.dispatch('loginSuccessful', {authToken: this.authToken});
     },
 
     methods: {
       updateSeats(newAmount) {
         console.log('the amount of free seats will be updated to ' + newAmount);
-        api.updateSeats(this.$props.resData.id, newAmount, this.$props.authToken).then((response) => {
+        api.updateSeats(this.$props.resData.id, newAmount, this.authToken).then((response) => {
           if(response.status === 200) {
             this.$buefy.toast.open({message: 'successfully updated the amount of seats to' + newAmount, type:'is-success'});
           }
