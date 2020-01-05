@@ -8,8 +8,12 @@ class Address(db.Model):
     postcode = db.Column(db.String(10))  # the longest postcode is 10 chars
     city = db.Column(db.String(100))
     country = db.Column(db.String(100))
+    # Coordinate Latitude
+    coord_lat = db.Column(db.Float())
+    # Coordinate Longitude
+    coord_lon = db.Column(db.Float())
     # Attributes of Address for creation, update and retrieve
-    address_attrs = ['street', 'house_number', 'postcode', 'city', 'country']
+    address_attrs = ['street', 'house_number', 'postcode', 'city', 'country', 'coord_lat', 'coord_lon']
 
     def to_dict(self) -> dict:
         """
