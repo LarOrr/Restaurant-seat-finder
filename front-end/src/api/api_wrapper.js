@@ -40,8 +40,14 @@ export default {
   },
 
   reAuthenticate(authToken) {
-    //TODO: implement this method when the back end is ready
-    return null;
+    let config = {headers: {Authorization: 'Bearer ' + authToken}};
+    console.log('making get request to /current-place, token:', authToken);
+    return axios.get('/current-place', config).then((response) => {
+      return response;
+    }, (error) => {
+      console.error(error);
+      return error.response;
+    });
   },
 
   register(placeType, placeName, placeUserName, placeEmail, placePassword, placeWebsite, placePhoneNumber, placeHouseNumber,
