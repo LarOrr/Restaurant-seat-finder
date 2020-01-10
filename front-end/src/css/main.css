@@ -52,9 +52,9 @@ h3 {
   border-radius: 16px;
 }
 
-.rest-list-footer-item {
-  min-height: 64px;
-}
+/*.rest-list-footer-item {*/
+/*  min-height: 64px;*/
+/*}*/
 
 .is-primary-color {
   color: var(--primaryColor);
@@ -67,4 +67,20 @@ h3 {
 /* provides an alias for is-accent-color */
 .is-secondary-color {
   color: var(--accentColor);
+}
+
+
+
+.is-private-info {
+  /* used by mouseflow to block private info, so add this class to any private info */
+}
+
+/* centers a component horizontally and vertically*/
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }

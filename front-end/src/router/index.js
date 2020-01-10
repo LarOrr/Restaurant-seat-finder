@@ -1,10 +1,11 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HomePage from "../components/HomePage";
+import Vue from 'vue';
+import Router from 'vue-router';
+import HomePage from "../components/UserView/HomePage";
 import RestaurantMainView from "../components/RestaurantView/RestaurantMainView";
-import NotFoundPage from "../components/NotFoundPage";
+import NotFoundPage from "../components/PageAddons/NotFoundPage";
 import RestaurantAuthenticationPage from "../components/RestaurantView/RestaurantAuthenticationPage";
 import RestaurantRegisterPage from "../components/RestaurantView/RestaurantRegisterPage";
+import RestaurantEditAccountPage from "../components/RestaurantView/RestaurantEditAccountPage";
 
 Vue.use(Router);
 
@@ -36,10 +37,16 @@ export default new Router({
       props: true,
     },
     {
+      path: '/editaccount',
+      name: 'EditAccount',
+      component: RestaurantEditAccountPage,
+      props: true,
+    },
+    {
       //This path has to be last in the list, it catches all paths that haven't been caught by the paths above!
       path: '*',
       name: 'NotFoundPage',
       component: NotFoundPage,
-    }
+    },
   ],
 })

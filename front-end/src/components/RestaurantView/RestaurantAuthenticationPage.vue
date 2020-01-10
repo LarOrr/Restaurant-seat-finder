@@ -3,12 +3,24 @@
     <div class="columns is-mobile">
       <div class="column is-5 is-hidden-touch is-offset-1">
         <h2>{{$props.reasonMessage}}</h2>
-        <b-field label="username">
-          <b-input placeholder="username"></b-input>
+        <b-field label="username"  :type="authenticationFailed ? 'is-danger' : ''" class="is-private-info">
+          <b-input v-model="username" placeholder="username" @input="authenticationFailed = false"></b-input>
         </b-field>
 
-        <b-field label="password">
-          <b-input type="password" placeholder="password" password-reveal></b-input>
+        <b-field label="password" :type="authenticationFailed ? 'is-danger' : ''" class="is-private-info">
+          <b-input v-model="password" type="password" placeholder="password" password-reveal @input="authenticationFailed = false"></b-input>
+        </b-field>
+
+        <b-field grouped>
+          <b-checkbox v-model="rememberMe">
+            remember me
+          </b-checkbox>
+          &nbsp
+          <b-select v-model="tokenLifetime" placeholder="select time" :disabled="!rememberMe">
+            <option v-for="dayCount in lifetimes" :value="dayCount.value" :key="dayCount.value">
+              {{dayCount.displayName + ' ' + dayCount.displaySuffix}}
+            </option>
+          </b-select>
         </b-field>
 
         <div class="columns">
@@ -18,7 +30,7 @@
 
           <div class="column has-text-right is-mobile">
             <router-link to="/register">
-              <p style="margin: 1% 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
+              <p style="margin: 10px 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
             </router-link>
           </div>
         </div>
@@ -27,12 +39,24 @@
 
       <div class="column is-10 is-offset-1 is-hidden-desktop">
         <h2>{{$props.reasonMessage}}</h2>
-        <b-field label="username">
-          <b-input placeholder="username"></b-input>
+        <b-field label="username" :type="authenticationFailed ? 'is-danger' : ''">
+          <b-input v-model="username" placeholder="username" @input="authenticationFailed = false"></b-input>
         </b-field>
 
-        <b-field label="password">
-          <b-input type="password" placeholder="password" password-reveal></b-input>
+        <b-field label="password" :type="authenticationFailed ? 'is-danger' : ''">
+          <b-input v-model="password" type="password" placeholder="password" password-reveal @input="authenticationFailed = false"></b-input>
+        </b-field>
+
+        <b-field grouped>
+          <b-checkbox v-model="rememberMe">
+            remember me
+          </b-checkbox>
+          &nbsp
+          <b-select v-model="tokenLifetime" placeholder="select time" :disabled="!rememberMe">
+            <option v-for="dayCount in lifetimes" :value="dayCount.value" :key="dayCount.value">
+              {{dayCount.displayName + ' ' + dayCount.displaySuffix}}
+            </option>
+          </b-select>
         </b-field>
 
         <div class="columns is-mobile">
@@ -42,8 +66,8 @@
 
           <div class="column has-text-right">
             <router-link to="/register">
-              <p class="is-hidden-mobile" style="margin: 1% 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
-              <p class="is-hidden-tablet" style="margin: 3% 1% 0 0; display:inline-block;">Register</p>
+              <p class="is-hidden-mobile" style="margin: 5px 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
+              <p class="is-hidden-tablet" style="margin: 15px 1% 0 0; display:inline-block;">Register</p>
             </router-link>
           </div>
         </div>
@@ -56,7 +80,8 @@
 </template>
 
 <script>
-  import timing from '../../utils/Timing';
+  import api from '../../api/api_wrapper';
+  import cookieHandler from '../../utils/CookieHandler';
 
   export default {
     name: "RestaurantAuthenticationPage",
@@ -69,20 +94,52 @@
       },
     },
 
+    computed: {
+      lifetimes() {
+        return cookieHandler.lifetimes;
+      },
+    },
+
     data() {
       return {
         isLoading: false,
+
+        username: null,
+        password: null,
+
+        rememberMe: false,
+        tokenLifetime: 1,
+
+        authenticationFailed: false,
       }
     },
 
     methods: {
-      async authenticate() {
-        //for now, just move on
+      authenticate() {
+        if(!(this.username && this.password)) {
+          this.$buefy.toast.open({message: 'Please fill in both fields', type: 'is-danger'});
+          return;
+        }
+
         this.isLoading = true;
-        await timing.sleep(1000);
+        let authToken;
+        api.requestAuthToken(this.username, this.password).then((response) => {
+          if(response.status === 200) {
+            authToken = response.data.token;
+            this.$store.dispatch('loginSuccessful', {authToken: authToken, tokenLifetime: (this.rememberMe ? this.tokenLifetime : 0)});
+            this.$router.push({name: 'MyRestaurant', params: {authToken: authToken, resData: response.data.place}});
+          }
+          else {
+            this.$buefy.toast.open({
+              message: 'Unable to login, reason: ' +
+                  ((response && response.data && response.data.message) ? response.data.message : 'no reason provided'),
+              type: 'is-danger',
+            });
+            this.authenticationFailed = true;
+            console.error(response.data.message);
+          }
+        });
         this.isLoading = false;
-        this.$router.push({name: 'MyRestaurant', params: {sessionId: 'fakeSessionId'}});
-        this.$store.commit('loginSuccessful');
       },
     },
   }

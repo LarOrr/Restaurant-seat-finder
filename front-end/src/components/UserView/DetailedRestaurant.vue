@@ -1,7 +1,7 @@
 <template>
   <div>
     <span>
-      {{resData.name}}'s description
+      {{resData.description}}
     </span>
     <br>
     <span>
