@@ -5,6 +5,7 @@ import RestaurantMainView from "../components/RestaurantView/RestaurantMainView"
 import NotFoundPage from "../components/PageAddons/NotFoundPage";
 import RestaurantAuthenticationPage from "../components/RestaurantView/RestaurantAuthenticationPage";
 import RestaurantRegisterPage from "../components/RestaurantView/RestaurantRegisterPage";
+import RestaurantEditAccountPage from "../components/RestaurantView/RestaurantEditAccountPage";
 
 Vue.use(Router);
 
@@ -33,6 +34,12 @@ export default new Router({
       path: '/myrestaurant',
       name: 'MyRestaurant',
       component: RestaurantMainView,
+      props: true,
+    },
+    {
+      path: '/editaccount',
+      name: 'EditAccount',
+      component: RestaurantEditAccountPage,
       props: true,
     },
     {

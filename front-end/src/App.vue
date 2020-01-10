@@ -1,8 +1,14 @@
 <template>
   <div id="app">
+    <!-- font awesome for icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+
+    <!-- our components -->
     <Header></Header>
+    <ConsentMessage :open-by-default="!userHasDecidedOnConsent"></ConsentMessage>
+
     <router-view id="main-router"/>
+
     <Footer></Footer>
   </div>
 </template>
@@ -10,15 +16,90 @@
 <script>
   import Header from "./components/PageAddons/Header";
   import Footer from "./components/PageAddons/Footer";
-
+  import cookieHandler from "./utils/CookieHandler";
+  import api from "./api/api_wrapper";
+  import ConsentMessage from "./components/PageAddons/ConsentMessage";
 
   export default {
     name: 'App',
-    components: {Footer, Header},
+    components: {ConsentMessage, Footer, Header},
+
+    computed: {
+      userHasDecidedOnConsent() {
+        // let collectionConsent = cookieHandler.getCookie('collectionConsent');
+        // return (collectionConsent === 'true') || (collectionConsent === 'false');
+        return true;
+      },
+    },
 
     mounted() {
-      //TODO: login once we can reauthenticate with just an authToken
+      this.reauthenticate();
+      this.getLocation();
+    },
 
+
+    methods: {
+      enableMouseflow() {
+        // let consentCookie = cookieHandler.getCookie('collectionConsent');
+        // if(window._mfq === [] && consentCookie !== 'false') {
+        //   (function() {
+        //     var mf = document.createElement("script");
+        //     mf.type = "text/javascript"; mf.async = true;
+        //     mf.src = "//cdn.mouseflow.com/projects/614bc48f-503b-4d03-9f17-b5044a6a94c3.js";
+        //     document.getElementsByTagName("head")[0].appendChild(mf);
+        //   })();
+        //
+        //   window._mfq.push(['newPageView', this.$route.path]);
+        // }
+      },
+
+
+      reauthenticate() {
+        //try to reauthenticate the current user if possible
+        let cookieToken = cookieHandler.getCookie('authToken', 512);
+        if(cookieToken) {
+          api.reAuthenticate(cookieToken).then((response) => {
+            //authenticated
+            if(response.status === 200) {
+              this.$store.dispatch('loginSuccessful', {authToken: cookieToken});
+            }
+            //not authenticated
+            else {
+              cookieHandler.deleteCookie('authToken');
+            }
+          });
+        }
+      },
+
+
+      getLocation() {
+        if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            this.$store.dispatch('newPosition', {position: position});
+          }, (error) => {
+            console.error(error);
+            this.$buefy.toast.open({
+              message: 'Restaurant distances will be unavailable',
+              type: 'is-danger',
+            });
+          });
+        }
+        else {
+          this.$buefy.snackbar.open({
+            message: 'It looks like location is not available for your device',
+            type: 'is-warning',
+            position: 'is-bottom-right',
+            queue: 'false',
+            indefinite: true,
+            onAction: () => {
+              this.$buefy.toast.open({
+                message: 'Action pressed',
+                queue: false
+              });
+            }
+          });
+        }
+      },
     },
   }
 </script>

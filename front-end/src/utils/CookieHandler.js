@@ -6,12 +6,12 @@ export default {
    * @param {Number} expire: potential argument for the number of days it should remain valid,
    *                leave out for expiration after the session
    */
-  createCookie(key, value, ...expire) { //potentially has a third argument for number of days
+  createCookie(key, value, expire) { //potentially has a third argument for number of days
     //if an amount of days is given, use that,
     //otherwise assume that it should only last for the current session (0 days)
     let days = 0;
-    if(arguments.length > 2) {
-      days = arguments[2];
+    if(expire) {
+      days = expire;
     }
 
     //if an amount of days is given, we need to format it so we can store that in the cookie,
@@ -29,12 +29,26 @@ export default {
   },
 
   /**
+   * creates a cookie with given key, value and lifetime,
+   * but only if the key value PAIR does not exist yet
+   * meaning that if the key exists but the value is different, the value will be changed
+   * @param {String} key: the key of the cookie
+   * @param {String} value: the value of the cookie
+   * @param {Number} expire: the amount of days before the cookie expires
+   */
+  createCookieIfNotExists(key, value, expire) {
+    if(!(this.getCookie(key) === value)) {
+      this.createCookie(key, value, expire);
+    }
+  },
+
+  /**
    * deletes a cookie if present, or simply returns silently if not present
    * @param {String} key: the key of the cookie to be deleted
    */
   deleteCookie(key) {
     if(this.getCookie(key) !== undefined) {
-      this.createCookie(key, "");
+      this.createCookie(key, "", 0);
     }
   },
 
@@ -60,7 +74,7 @@ export default {
    */
   takeUntil(string, endChar, ...others) {
     let startIndex = 0;
-    let maxBound = 100;
+    let maxBound = 1000;
     if(arguments.length > 2) {
       startIndex = arguments[2];
     }
@@ -84,7 +98,7 @@ export default {
   /**
    * gets the value of a cookie
    * @param {String} key: the key of the cookie
-   * @param {Number} maxLength: the maximum length of the cookie, leave empty for 100
+   * @param {Number} maxLength: the maximum length of the cookie, leave empty for 1000
    * @returns {undefined|*|string}: the value of the cookie, or undefined if the cookie does not exist
    */
   getCookie(key, maxLength) {

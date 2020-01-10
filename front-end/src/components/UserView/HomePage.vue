@@ -1,21 +1,23 @@
 <template>
   <div class="content">
-    <RestaurantList></RestaurantList>
+    <RestaurantSet></RestaurantSet>
   </div>
 </template>
 
 <script>
-  import RestaurantList from "./RestaurantList";
+  import RestaurantSet from "./RestaurantSet";
+  import RestaurantFilters from "./RestaurantFilters";
   export default {
     name: "HomePage",
-    components: {RestaurantList},
+    components: {RestaurantFilters, RestaurantSet},
   }
 </script>
 
 <style scoped>
   .content{
     background-color: var(--lightGrey);
-    margin-bottom: 3%;
+    width: 100%;
+    margin-bottom: 30px;
     margin-right: -1%;
     margin-left: 1%;
   }

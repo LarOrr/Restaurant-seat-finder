@@ -1,20 +1,16 @@
 <template>
   <div>
-    <div>
-      <h2 class="rest-view-heading">{{resData.name}}</h2>
+    <div style="text-align: center;">
+      <h2 class="rest-view-heading" style="text-align:center;">{{resData ? resData.name : 'invalid restaurant name'}}</h2>
       <h3>Amount of free seats:</h3>
     </div>
 
-    <div style="text-align: right; margin-right: calc(4% + 50px);">
-      <b-icon
-        pack="fas"
-        icon="fas fa-user-circle"
-        class="is-primary-color rest-view-account-manage-icon"
-      >
-      </b-icon>
-    </div>
-
-    <RestaurantSeatCounter :free-seats="resData.free_seats" :total-seats="resData.total_seats" v-on:seat-update="updateSeats($event)">
+    <RestaurantSeatCounter
+      v-if="finishedAuthentication"
+      v-bind:free-seats="resData ? resData.free_seats : NaN"
+      v-bind:total-seats="resData ? resData.total_seats : NaN"
+      v-on:seat-update="updateSeats($event)"
+    >
     </RestaurantSeatCounter>
 
 
@@ -30,22 +26,11 @@
     name: "RestaurantMainView",
     components: {RestaurantSeatCounter},
 
-    props: {
-      authToken: {
-        type: String,
-        required: true,
-      },
-
-      resData: {
-        type: Object,
-        required: true,
-      },
-    },
-
     data() {
       return {
-        authToken: this.$props.authToken,
-        resData: this.$props.resData,
+        authToken: '',
+        resData: {},
+        finishedAuthentication: false,
       }
     },
 
@@ -58,7 +43,11 @@
         api.reAuthenticate(cookieToken).then((response) => {
           //authenticated
           if(response.status === 200) {
-            next({params: {authToken: from.params.authToken ? from.params.authToken : cookieToken, resData: response.status.place}});
+            next(vm => {
+              vm.authToken = from.params.authToken ? from.params.authToken : cookieToken;
+              vm.resData = response.data;
+              vm.finishedAuthentication = true;
+            });
           }
           //not authenticated
           else {
@@ -68,16 +57,17 @@
       }
     },
 
-    mounted() {
+    async mounted() {
+      await this.$nextTick();
       this.$store.dispatch('loginSuccessful', {authToken: this.authToken});
     },
 
     methods: {
       updateSeats(newAmount) {
-        console.log('the amount of free seats will be updated to ' + newAmount);
-        api.updateSeats(this.$props.resData.id, newAmount, this.authToken).then((response) => {
+        //console.log('the amount of free seats will be updated to ' + newAmount);
+        api.updateSeats(this.resData.id, newAmount, this.authToken).then((response) => {
           if(response.status === 200) {
-            this.$buefy.toast.open({message: 'successfully updated the amount of seats to' + newAmount, type:'is-success'});
+            this.$buefy.toast.open({message: 'successfully updated the amount of seats to ' + newAmount, type:'is-success'});
           }
           else {
             this.$buefy.toast.open({message: 'could not update the amount of seats: ' + ((response && response.data && response.data.message) ? response.data.message : '')});

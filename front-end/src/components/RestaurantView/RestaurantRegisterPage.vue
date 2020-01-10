@@ -2,8 +2,8 @@
   <div class="content">
     <div class="columns is-mobile">
       <div class="column is-6 is-offset-1">
-        <h4 style="font-weight: bold; margin-bottom: 1%">Type</h4>
-        <b-field>
+        <h4 style="font-weight: bold; margin-bottom: 5px">Type</h4>
+        <b-field required>
           <b-radio native-value="restaurant" v-model="placeType">
             Restaurant
           </b-radio>
@@ -13,19 +13,19 @@
           <b-radio native-value="pub" v-model="placeType">
             Pub/Bar
           </b-radio>
-          <b-radio native-value="fast-food" v-model="placeType">
+          <b-radio native-value="fast food" v-model="placeType">
             Fast food
           </b-radio>
-          <b-radio native-value="fast-casual" v-model="placeType">
+          <b-radio native-value="fast casual" v-model="placeType">
             Fast casual
           </b-radio>
         </b-field>
 
-        <b-field label="Name" id="registerNameText">
+        <b-field label="Restaurant Name" id="registerNameText">
           <b-input
             v-model="placeName"
             type="name"
-            placeholder="Your name"
+            placeholder="Your restaurant's name"
             required
             id="nameRegister"
             rounded
@@ -35,11 +35,11 @@
 
         <b-field label="Username" id="registerUsernameText">
           <b-input
-            v-model="placeUserName"
+            v-model="placeUsername"
             type="username"
             placeholder="Your Username"
             required
-            id="userNameRegister"
+            id="usernameRegister"
             rounded
           >
           </b-input>
@@ -57,7 +57,7 @@
           </b-input>
         </b-field>
 
-        <b-field label="Password" id="registerPasswordText">
+        <b-field label="Password" id="registerPasswordText" class="is-private-info">
           <b-input
             v-model="placePassword"
             type="password"
@@ -70,7 +70,7 @@
           </b-input>
         </b-field>
 
-        <b-field label="Repeat password" id="registerRepeatPasswordText">
+        <b-field label="Repeat password" id="registerRepeatPasswordText" class="is-private-info">
           <b-input
             v-model="placePasswordRepeat"
             type="password"
@@ -88,7 +88,6 @@
             v-model="placeWebsite"
             type="url"
             placeholder="Your website"
-            required
             id="websiteRegister"
             rounded
           >
@@ -100,14 +99,13 @@
             v-model="placePhoneNumber"
             type="tel"
             placeholder="Your phone number"
-            required
-            id="websiteRegister"
+            id="phoneRegister"
             rounded
           >
           </b-input>
         </b-field>
 
-        <h4 style="font-weight: bold; margin-bottom: 1%">Address</h4>
+        <h4 style="font-weight: bold; margin-bottom: 5px">Address</h4>
         <b-field grouped>
           <b-field label="HN" style="width: 20%">
             <b-input
@@ -139,7 +137,6 @@
             v-model="placePostcode"
             type="postcode"
             placeholder="Your postcode"
-            required
             id="postcodeRegister"
             rounded
           >
@@ -152,7 +149,6 @@
               v-model="placeCity"
               type="city"
               placeholder="Your city"
-              required
               id="cityRegister"
               rounded
             >
@@ -165,7 +161,6 @@
               v-model="placeCountry"
               type="country"
               placeholder="Your country"
-              required
               id="countryRegister"
               rounded
             >
@@ -173,13 +168,37 @@
           </b-field>
         </b-field>
 
-        <b-field label="Total seats" style="width: 20%">
+        <b-button class="button is-primary" @click="lookupCoords" style="margin-top:-2%">
+          Verify address
+        </b-button>
+
+        <div v-show="addressOptions.length > 0">
+          <b-select v-model="selectedAddress" placeholder="Please pick your address" style="margin-top:1%;">
+            <option
+              v-for="option in addressOptions"
+              :value="option"
+              :key="option.place_id"
+            >
+              {{option.display_name}}
+            </option>
+          </b-select>
+
+          <b-tooltip
+            label="try to be more specific and make sure that your address details do not contain any typos"
+            :delay="300"
+          >
+            <p style="color:gray; text-align: right;">Help! The correct address is not in the list</p>
+          </b-tooltip>
+        </div>
+
+
+        <b-field label="Total seats" style="width: 20%; margin-top:3%;">
           <b-input
             v-model="placeTotalSeats"
             type="number"
             placeholder="Your maximum number of seats"
             required
-            id="houseNumberRegister"
+            id="totalSeatsRegister"
             rounded
           >
           </b-input>
@@ -188,6 +207,9 @@
         <b-field label="Description">
           <b-input v-model="placeDescription" maxlength="300" type="textarea"></b-input>
         </b-field>
+
+
+        <p style="text-align:right; font-size:0.9em; margin-top: -6px">Fields marked with an asterisk (*) are required</p>
 
         <b-field grouped>
           <b-checkbox v-model="shouldRemember">
@@ -201,7 +223,6 @@
           </b-select>
         </b-field>
 
-
         <button class="button is-right is-primary" @click.prevent="register" id="registerButton">Sign Up</button>
       </div>
 
@@ -211,8 +232,10 @@
 </template>
 
 <script>
-import api from '../../api/api_wrapper';
-import cookieHandler from '../../utils/CookieHandler';
+  import api from '../../api/api_wrapper';
+  import thirdPartyApi from '../../api/thirdparty_api_requests';
+  import cookieHandler from '../../utils/CookieHandler';
+  import tokens from "../../top_secret_files/tokenList";
 
   export default {
     name: "RestaurantRegisterPage",
@@ -221,6 +244,15 @@ import cookieHandler from '../../utils/CookieHandler';
       lifetimes() {
         return cookieHandler.lifetimes;
       },
+
+      isAllRequiredFieldsFilledIn() {
+        for(let i = 0; i < this.requiredFields.length; i++) {
+          if(!(this[this.requiredFields[i].name])) {
+            return false;
+          }
+        }
+        return true;
+      }
     },
 
     data() {
@@ -229,10 +261,11 @@ import cookieHandler from '../../utils/CookieHandler';
         isLoading: false,
         tokenLifetime: 1,
 
+
         //all of the variables for the register form
-        placeType: '',
+        placeType: 'restaurant',
         placeName: '',
-        placeUserName: '',
+        placeUsername: '',
         placeEmail: '',
         placePassword: '',
         placePasswordRepeat: '',
@@ -245,23 +278,61 @@ import cookieHandler from '../../utils/CookieHandler';
         placeCountry: '',
         placeTotalSeats: '',
         placeDescription: '',
+
+        requiredFields: [
+          {name: 'placeName', id: 'nameRegister'},
+          {name: 'placeUsername', id: 'usernameRegister'},
+          {name: 'placeEmail', id: 'emailRegister'},
+          {name: 'placePassword', id: 'passwordRegister'},
+          {name: 'placePasswordRepeat', id: 'passwordRegisterRepeat'},
+          {name: 'placeHouseNumber', id :'houseNumberRegister'},
+          {name: 'placeStreet', id: 'streetRegister'},
+          {name: 'placeTotalSeats', id: 'totalSeatsRegister'},
+          {name: 'selectedAddress'}
+        ],
+
+        //the options the user will have to select their correct address from
+        addressOptions: [],
+        selectedAddress: null,
       }
     },
 
+    mounted() {
+      this.markAllRequiredFields();
+    },
+
     methods: {
+      lookupCoords() {
+        if(!(this.placeStreet && this.placeHouseNumber)) {
+          this.$buefy.toast.open({message: 'please fill in a street and a house number', type: 'is-danger'});
+          return;
+        }
+
+        //first clear the old selected address
+        this.selectedAddress = null;
+
+        //for some reason our third party api does not like postcodes, so that is not included here
+        let params = [this.placeHouseNumber, this.placeStreet, this.placeCity, this.placeCountry].filter(x => x);
+        thirdPartyApi.getCoords(params, tokens.locationIqToken).then((response) => {
+          if(response.status === 200) {
+            this.addressOptions = response.data;
+          }
+          else {
+            this.$buefy.toast.open({message: 'something went wrong when looking up the address, status: ' + status, type: 'is-danger'});
+          }
+        });
+      },
+
       register() {
-        if(!(this.placeType && this.placeName && this.placeUserName && this.placeEmail && this.placePassword &&
-            this.placePasswordRepeat === this.placePassword && this.placeHouseNumber && this.placeStreet &&
-            this.placePostcode && this.placeCity && this.placeCountry && this.placeTotalSeats && this.placeDescription)) {
+        if(!this.isAllRequiredFieldsFilledIn || !(this.placePassword === this.placePasswordRepeat) || !this.selectedAddress) {
           this.$buefy.toast.open({message: 'please fill in all required fields', type: 'is-danger'});
           return;
         }
 
-        api.register(this.placeType, this.placeName, this.placeUserName, this.placeEmail, this.placePassword,
+        api.register(this.placeType, this.placeName, this.placeUsername, this.placeEmail, this.placePassword,
             this.placeWebsite, this.placePhoneNumber, this.placeHouseNumber, this.placeStreet, this.placePostcode,
-            this.placeCity, this.placeCountry, this.placeTotalSeats, this.placeDescription)
+            this.placeCity, this.placeCountry, this.selectedAddress.lat, this.selectedAddress.lon, this.placeTotalSeats, this.placeDescription)
             .then((response) => {
-          console.log(response);
           if(response.status === 200 || response.status === 201) {
             this.$store.dispatch('loginSuccessful', {authToken: response.data.token, tokenLifetime: this.shouldRemember ? this.tokenLifetime : 0});
             this.$router.push({name: 'MyRestaurant', params: {authToken: response.data.token, resData: response.data.place}});
@@ -270,6 +341,16 @@ import cookieHandler from '../../utils/CookieHandler';
             this.$buefy.toast.open({message: 'could not register your account', type:'is-danger'});
           }
         });
+      },
+
+      markAllRequiredFields() {
+        for(let i = 0; i < this.requiredFields.length; i++) {
+          if(this.requiredFields[i].id) {
+            let parent = document.getElementById(this.requiredFields[i].id).parentElement.parentElement;
+            let label = parent.getElementsByTagName('label')[0];
+            label.innerText = label.innerText + '*';
+          }
+        }
       },
     },
   }

@@ -3,11 +3,11 @@
     <div class="columns is-mobile">
       <div class="column is-5 is-hidden-touch is-offset-1">
         <h2>{{$props.reasonMessage}}</h2>
-        <b-field label="username"  :type="authenticationFailed ? 'is-danger' : ''">
+        <b-field label="username"  :type="authenticationFailed ? 'is-danger' : ''" class="is-private-info">
           <b-input v-model="username" placeholder="username" @input="authenticationFailed = false"></b-input>
         </b-field>
 
-        <b-field label="password" :type="authenticationFailed ? 'is-danger' : ''">
+        <b-field label="password" :type="authenticationFailed ? 'is-danger' : ''" class="is-private-info">
           <b-input v-model="password" type="password" placeholder="password" password-reveal @input="authenticationFailed = false"></b-input>
         </b-field>
 
@@ -30,7 +30,7 @@
 
           <div class="column has-text-right is-mobile">
             <router-link to="/register">
-              <p style="margin: 1% 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
+              <p style="margin: 10px 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
             </router-link>
           </div>
         </div>
@@ -66,8 +66,8 @@
 
           <div class="column has-text-right">
             <router-link to="/register">
-              <p class="is-hidden-mobile" style="margin: 1% 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
-              <p class="is-hidden-tablet" style="margin: 3% 1% 0 0; display:inline-block;">Register</p>
+              <p class="is-hidden-mobile" style="margin: 5px 1% 0 0; display:inline-block;">I don't have a restaurant account yet</p>
+              <p class="is-hidden-tablet" style="margin: 15px 1% 0 0; display:inline-block;">Register</p>
             </router-link>
           </div>
         </div>

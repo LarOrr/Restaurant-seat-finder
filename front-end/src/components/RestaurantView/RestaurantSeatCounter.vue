@@ -2,7 +2,6 @@
   <div class="columns">
     <div class="column is-10 is-offset-1" style="text-align: center;">
       <div class="columns">
-        <!-- TODO: Make this section look better on mobile -->
         <div class="column is-5" style="text-align: right;">
           <SeatCountModifyingButtonSet :direction="PNenum.negative" v-on:modify-seats="modifySeats($event)"
           >
@@ -11,12 +10,19 @@
 
         <!-- seat number for anything else-->
         <div class="column is-2 is-hidden-mobile">
-          <p class="rest-view-seat-count">{{emptySeats}}</p>
+          <div style="display: flex; align-items: baseline; margin: 0 auto 0 auto;">
+            <p class="rest-view-seat-count" style="margin-left: auto">{{emptySeats}}</p>
+            <p style="font-size: 150%; margin-right:auto">/{{totalSeats}}</p>
+          </div>
+
         </div>
 
         <!-- seat number for mobile -->
-        <div class="column is-2 is-hidden-tablet" style="margin: -4%;">
-          <p class="rest-view-seat-count">{{emptySeats}}</p>
+        <div class="column is-2 is-hidden-tablet" style="margin: -4%; display:inline-block">
+          <div style="display: flex; align-items: baseline; margin: 0 auto 0 auto;">
+            <p class="rest-view-seat-count" style="margin-left: auto">{{emptySeats}}</p>
+            <p style="font-size: 150%; margin-right:auto">/{{totalSeats}}</p>
+          </div>
         </div>
 
         <div class="column is-5" style="text-align: left;">

@@ -19,7 +19,7 @@
     <div class="is-hidden-tablet has-text-centered">
       <!-- Button for positive direction on mobile-->
       <template  v-if="isPos()">
-        <b-button type="is-primary" class="is-large" @click="modifySeats(1)" style="margin: 0 0.5% 0.5% 0.5%;">{{getSimpleSign()}}</b-button>
+        <b-button type="is-primary" class="is-large" @click="modifySeats(1)" style="margin: 0 0.5% 3px 0.5%;">{{getSimpleSign()}}</b-button>
         <br>
       </template>
 
@@ -36,7 +36,7 @@
       <!-- Button for negative direction on mobile -->
       <template v-if="!isPos()">
         <br>
-        <b-button type="is-primary" class="is-large" @click="modifySeats(1)" style="margin: 0.5% 0.5% 0 0.5%;">{{getSimpleSign()}}</b-button>
+        <b-button type="is-primary" class="is-large" @click="modifySeats(1)" style="margin: 3px 0.5% 0 3px;">{{getSimpleSign()}}</b-button>
       </template>
 
     </div>
