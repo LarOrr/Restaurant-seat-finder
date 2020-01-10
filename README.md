@@ -1,2 +1,2 @@
 # Restaurant-seat-finder
-RE&amp;SE Course (2019) for RUG
+Requirements Engineering & Software Startups 2019-2020 project from students at the Rijksuniversiteit Groningen
