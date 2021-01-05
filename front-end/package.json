@@ -10,7 +10,7 @@
     "build": "node build/build.js --mod production"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "buefy": "^0.8.8",
     "leaflet": "^1.6.0",
     "node-sass": "^4.13.0",
